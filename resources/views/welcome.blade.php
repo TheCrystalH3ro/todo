@@ -6,7 +6,7 @@
         <div class="headline">
             <h2 class="text-white text-xl text-shadow">TODO</h2>
         </div>
-        <div class="controls text-center">
+        <div class="controls text-center mt-sm">
             <a href="<?= url("/login"); ?>" class="login-btn text-white m-auto text-large mb-sm z-depth-2"> <?= __('auth.login'); ?> </a>
             <span class="register-btn">
                 <?= __('general.or'); ?> <a href="<?= url("/register"); ?>" class="text-white text-link"><?= __('auth.create_account'); ?></a>

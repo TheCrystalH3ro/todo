@@ -6,6 +6,10 @@
   margin: 0 auto;
 }
 
+.mt-sm {
+  margin-top: 1.5rem;
+}
+
 .mb-sm {
   margin-bottom: 1.5rem;
 }
@@ -102,5 +106,9 @@
 
 .login-box .input-field label {
   color: black;
+}
+
+.login-box .register-btn a {
+  text-transform: capitalize;
 }
 
