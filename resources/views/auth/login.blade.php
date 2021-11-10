@@ -8,19 +8,34 @@
                 <h4><?= __('auth.login') ?></h4>
             </div>
             <div class="box-content">
+
+                <x-auth-validation-errors class="error-box mb-4" :errors="$errors" />
+
                 <form action="<?= url('/login'); ?>" method="post">
+                    @csrf
 
                     <div class="row">
                         <div class="input-field col s12">
-                            <input placeholder="<?= __('auth.username') . ' ' . __('general.or') . ' e-mail' ?>" id="username" type="text" class="validate">
+                            <input placeholder="<?= __('auth.username') . ' ' . __('general.or') . ' e-mail' ?>" id="username" name="login" type="text" class="validate">
                             <label for="username"><?= __('auth.userLogin') ?></label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="password" type="password" class="validate">
+                            <input id="password" type="password" name="password" class="validate">
                             <label for="password"><?= __('auth.password') ?></label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s-12">
+                            <p class="input-check">
+                                <label for="rememberMe">
+                                    <input type="checkbox" name="remember" id="rememberMe" class="filled-in">
+                                    <span><?= __('auth.rememberMe') ?></span>
+                                </label>
+                            </p>
                         </div>
                     </div>
                     

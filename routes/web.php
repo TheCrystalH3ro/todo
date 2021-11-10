@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', function () {
-    return view('login');
-});
-
-Route::get('/register', function () {
-    return view('register');
-});
-
 Route::get('/', function () {
+
+    if(auth()->check()) {
+        return view('dashboard');
+    }
+
     return view('welcome');
-});
+    
+})->name('home');
+
+require __DIR__.'/auth.php';

@@ -26,7 +26,7 @@
         <!-- MAIN CSS -->
         <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
     </head>
-    <body>
+    <body class="{{ Route::current()->getName() }}">
         <div id="main">
             
             @yield('content')

@@ -26,5 +26,6 @@ return [
     'password' => 'Password',
     'password_confirm' => 'Confirm password',
     'loginFailed' => 'Invalid name or password',
+    'rememberMe' => 'Remember me',
 
 ];

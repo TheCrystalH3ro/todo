@@ -8,11 +8,15 @@
                 <h4><?= __('auth.register') ?></h4>
             </div>
             <div class="box-content">
+
+                <x-auth-validation-errors class="error-box mb-4" :errors="$errors" />
+
                 <form action="<?= url('/register'); ?>" method="post">
+                    @csrf
 
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="username" name="username" type="text" class="validate">
+                            <input id="username" name="name" type="text" class="validate">
                             <label for="username"><?= __('auth.username') ?></label>
                         </div>
                     </div>
@@ -33,7 +37,7 @@
 
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="confirmPassword" name="passwordConfirm" type="password" class="validate">
+                            <input id="confirmPassword" name="password_confirmation" type="password" class="validate">
                             <label for="confirmPassword"><?= __('auth.password_confirm') ?></label>
                         </div>
                     </div>
