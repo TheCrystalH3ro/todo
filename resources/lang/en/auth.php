@@ -27,5 +27,7 @@ return [
     'password_confirm' => 'Confirm password',
     'loginFailed' => 'Invalid name or password',
     'rememberMe' => 'Remember me',
+    'profile' => 'Profile',
+    'logout' => 'Logout',
 
 ];

@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -27,11 +28,25 @@
         <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
     </head>
     <body class="{{ Route::current()->getName() }}">
-        <div id="main">
-            
+        <div id="main" @yield('main_attr')>
+
             @yield('content')
 
         </div>
     </body>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
     <script src="<?= asset('js/materialize.min.js') ?>"></script>
+    
+    <script>
+        $(document).ready(() => {
+            $(".dropdown-trigger").dropdown({
+                alignment: 'right',
+                coverTrigger: false,
+                closeOnClick: false,
+                constrainWidth: false,
+            });
+        });
+    </script>
 </html>

@@ -4,14 +4,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | General Language Lines
+    | Task Language Lines
     |--------------------------------------------------------------------------
     |
     |
     */
 
-    'or' => 'or',
-    'home' => 'Home',
-    'nothing' => 'Nothing to see here',
+    'create' => 'New task',
+    'myList' => 'My tasks',
 
 ];
