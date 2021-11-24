@@ -21,13 +21,13 @@
 
             <ul class="left">
                 <li>
-                    <a class="home-btn" href="">{{ __('general.home') }}</a>
+                    <a class="home-btn" href="{{ url('/'); }}">{{ __('general.home') }}</a>
                 </li>
                 <li>
-                    <a class="new-task-btn" href=""> {{ __('tasks.create') }} </a>
+                    <a class="new-task-btn" href="{{ url('/tasks/create'); }}"> {{ __('tasks.create') }} </a>
                 </li>
                 <li>
-                    <a class="my-tasks-btn" href="">{{ __('tasks.myList') }}</a>
+                    <a class="my-tasks-btn" href="{{ url('/tasks'); }}">{{ __('tasks.myList') }}</a>
                 </li>
             </ul>
             
