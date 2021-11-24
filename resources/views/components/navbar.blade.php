@@ -1,6 +1,6 @@
 <ul id="userdropdown" class="dropdown-content user-dropdown">
     <li>
-        <a class="profile-btn" href="">{{ __('auth.profile') }}</a>
+        <a class="profile-btn" href="{{ url('/profile') }}">{{ __('auth.profile') }}</a>
     </li>
     <li>
         <form action="{{ url('/logout') }}" method="post">
