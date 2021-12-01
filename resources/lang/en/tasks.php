@@ -11,6 +11,8 @@ return [
     */
 
     'create' => 'New task',
+    'createButton' => 'Create task',
     'myList' => 'My tasks',
+    'editCategories' => 'Manage categories',
 
 ];

@@ -55,6 +55,14 @@
   border-bottom: 1px solid white;
 }
 
+.green_my {
+  background-color: #0BD681;
+}
+
+.green_my:hover {
+  background-color: #0ACC47;
+}
+
 .error-box ul {
   padding: 24px;
 }
@@ -161,5 +169,16 @@ nav .dropdown-content li input[type=submit]:hover {
 
 .app {
   min-height: 100vh;
+}
+
+.task .task-box {
+  margin-top: 2rem;
+  padding: 1rem;
+}
+.task .task-header ul li {
+  display: inline-block;
+}
+.task .task-body {
+  margin: 1.5rem 0;
 }
 

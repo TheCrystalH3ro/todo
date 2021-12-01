@@ -168,3 +168,24 @@ nav {
 .app {
     min-height: 100vh;
 }
+
+.task {
+
+    .task-box {
+        margin-top: 2rem;
+        padding: 1rem;
+    }
+
+    .task-header {
+
+        ul li {
+            display: inline-block;
+        }
+
+    }
+
+    .task-body {
+        margin: 1.5rem 0;
+    }
+
+}
