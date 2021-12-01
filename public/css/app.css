@@ -55,14 +55,6 @@
   border-bottom: 1px solid white;
 }
 
-.green_my {
-  background-color: #0BD681;
-}
-
-.green_my:hover {
-  background-color: #0ACC47;
-}
-
 .error-box ul {
   padding: 24px;
 }

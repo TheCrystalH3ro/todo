@@ -1,0 +1,1 @@
+<a class="waves-effect waves-light btn modal-trigger teal lighten-2" href="#visibility"><i class="material-icons">remove_red_eye</i></a>
