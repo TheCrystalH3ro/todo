@@ -13,5 +13,6 @@ return [
     'or' => 'or',
     'home' => 'Home',
     'nothing' => 'Nothing to see here',
+    'done' => 'Done',
 
 ];

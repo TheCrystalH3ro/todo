@@ -47,6 +47,8 @@
                 closeOnClick: false,
                 constrainWidth: false,
             });
+
+            $('.modal').modal();
         });
     </script>
 </html>
