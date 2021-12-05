@@ -40,7 +40,7 @@
         </ul>
     </div>
     <div class="modal-footer">
-        <a class="modal-close waves-effect waves-light chip text-white btn modal-trigger teal lighten-2" href="#!">
+        <a class="modal-close waves-effect waves-light chip text-white btn modal-trigger teal lighten-2">
             <span>{{ __('general.done') }}</span>
         </a>
     </div>
