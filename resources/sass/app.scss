@@ -95,6 +95,7 @@ $table_hover: #cfd8dc !important;
 .login-box {
     backdrop-filter: blur(10px);
     background-color: rgba(255,255,255, 0.15);
+    border-radius: 2rem;
     margin: 1.5em;
     padding: 1.5em;
 }
@@ -175,7 +176,16 @@ nav {
 
     .task-box {
         margin-top: 2rem;
-        padding: 1.5rem 1rem;
+        padding: 2rem 1rem;
+        border-radius: 1rem;
+    }
+
+    .row {
+        margin-bottom: 0;
+    }
+
+    .modal {
+        border-radius: 1rem;
     }
 
     .task-header {
@@ -232,7 +242,7 @@ nav {
     }
 
     .category-list {
-        
+
         margin: 0;
 
         .category-item {

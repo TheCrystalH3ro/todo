@@ -1,4 +1,4 @@
-<a class="waves-effect waves-light btn modal-trigger teal lighten-2" href="#visibility">
+<a class="waves-effect waves-light btn-floating modal-trigger teal lighten-2" href="#visibility">
     <i class="material-icons">remove_red_eye</i>
 </a>
 
@@ -40,7 +40,7 @@
         </ul>
     </div>
     <div class="modal-footer">
-        <a class="modal-close waves-effect waves-light btn modal-trigger teal lighten-2" href="#!">
+        <a class="modal-close waves-effect waves-light chip text-white btn modal-trigger teal lighten-2" href="#!">
             <span>{{ __('general.done') }}</span>
         </a>
     </div>

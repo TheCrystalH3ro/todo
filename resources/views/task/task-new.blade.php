@@ -14,6 +14,6 @@
 
 @section('task-footer')
     
-    <button type="submit" class="waves-effect waves-light btn teal lighten-2"> {{ __('tasks.createButton') }} </button>
+    <button type="submit" class="waves-effect waves-light chip text-white btn teal lighten-2"> {{ __('tasks.createButton') }} </button>
 
 @endsection

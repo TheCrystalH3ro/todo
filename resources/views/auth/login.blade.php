@@ -41,7 +41,7 @@
                     
                     <div class="row">
                         <div class="input-field col s12">
-                            <button class="btn" type="submit"><?= __('auth.login') ?></button>
+                            <button class="btn chip text-white waves-effect waves-light teal lighten-2" type="submit"><?= __('auth.login') ?></button>
                         </div>
                     </div> 
 
