@@ -10,6 +10,6 @@ class Category extends Model
     use HasFactory;
 
     public function tasks() {
-        return $this->belongsToMany(Task::class);
+        return $this->belongsToMany(Task::class, 'task_category');
     }
 }

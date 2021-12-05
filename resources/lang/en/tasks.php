@@ -13,7 +13,12 @@ return [
     'create' => 'New task',
     'createButton' => 'Create task',
     'myList' => 'My tasks',
+
+    'categories' => 'Categories',
     'editCategories' => 'Manage categories',
+    'categories-select' => 'Select Category',
+    'categories-selected' => 'Selected Categories',
+
     'visibility' => 'Visibility',
     'public' => 'Public',
     'private' => 'Private',

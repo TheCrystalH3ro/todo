@@ -1,3 +1,5 @@
+$table_hover: #cfd8dc !important;
+
 .m-0 {
     margin: 0;
 }
@@ -173,7 +175,7 @@ nav {
 
     .task-box {
         margin-top: 2rem;
-        padding: 1rem;
+        padding: 1.5rem 1rem;
     }
 
     .task-header {
@@ -186,6 +188,56 @@ nav {
 
     .task-body {
         margin: 1.5rem 0;
+    }
+
+    .modal-footer {
+        padding: 4px 24px;
+    }
+
+    #categories {
+
+        max-height: 100%;
+
+        .input-field {
+            margin: 3rem 0;
+        }
+
+        .category-box {
+            height: 14rem;
+            overflow: auto;
+            margin-top: 1rem;
+        }
+
+        .control {
+            text-align: right;
+        }
+
+        td {
+            padding: 1rem;
+        }
+
+        .material-icons {
+            vertical-align: bottom;
+            color: gray;
+        }
+
+        .material-icons:hover {
+            color: darkred;
+        }
+
+        table.highlight > tbody > tr:hover {
+            background-color: $table_hover;
+        }
+
+    }
+
+    .category-list {
+        
+        margin: 0;
+
+        .category-item {
+            margin-bottom: 0.5em;
+        }
     }
 
 }
