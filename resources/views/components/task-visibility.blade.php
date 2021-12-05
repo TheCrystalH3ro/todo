@@ -45,3 +45,19 @@
         </a>
     </div>
 </div>
+
+<script>
+
+    function getVisibilityMessage(value) {
+
+        if(value) {
+
+            return "{{ __('tasks.public')  }}";
+
+        }
+
+        return "{{ __('tasks.private')  }}";
+
+    }
+
+</script>

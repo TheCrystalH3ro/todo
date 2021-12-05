@@ -182,3 +182,15 @@ $(document).on('click', '.delete-category', (event) => {
     deleteCategoryBox(id);
 
 });
+
+$('#visibility input').on('change', (event) => {
+
+    let element = event.target;
+
+    let value = $(element).is(":checked");
+
+    let message = getVisibilityMessage(value);
+
+    $('#visibility h4 i').text(message);
+
+});
