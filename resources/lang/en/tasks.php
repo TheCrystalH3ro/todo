@@ -26,4 +26,7 @@ return [
     'visibility-info-public' => 'task can be seen by everyone.',
     'visibility-info-private' => 'task can only be seen by its members.',
 
+    'name' => 'Name',
+    'description' => 'Description'
+
 ];
