@@ -6,7 +6,7 @@
         
         <div class="task-box container row blue-grey lighten-5">
             
-            <form action="@yield('form-url')">
+            <form action="@yield('form-url')" method="POST">
                 @yield('form-method')
                 @csrf
 

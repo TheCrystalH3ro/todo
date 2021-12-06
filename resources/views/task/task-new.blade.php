@@ -1,5 +1,13 @@
 @extends('task.task-master')
 
+@section('form-url')
+    {{ url('/tasks') }}
+@endsection
+
+@section('form-method')
+    @method('POST')
+@endsection
+
 @section('task-heading')
     
     @include('components.task-categories')
