@@ -1,5 +1,5 @@
 <a class="waves-effect waves-light btn-floating modal-trigger teal lighten-2" href="#visibility">
-    <i class="material-icons">remove_red_eye</i>
+    <i class="material-icons">visibility</i>
 </a>
 
 <div id="visibility" class="modal">
