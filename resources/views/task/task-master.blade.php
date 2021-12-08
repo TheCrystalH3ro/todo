@@ -18,7 +18,11 @@
 
                     <div class="row">
                         <div class="input-field col s7">
-                            <input id="task_name" type="text" name="task_name" class="validate">
+                            <input id="task_name"
+                                @isset($task)
+                                    value="{{ $task->name }}"
+                                @endisset
+                            type="text" name="task_name" class="validate">
                             <label for="task_name">{{ __('tasks.name') }}</label>
                         </div>
                         <div class="input-field col s5">
@@ -37,7 +41,11 @@
 
                     <div class="row">
                         <div class="input-field col s12">
-                            <textarea id="task_description" name="task_description" class="materialize-textarea"></textarea>
+                            <textarea id="task_description"
+                                @isset($task)
+                                    value="{{ $task->description }}"
+                                @endisset
+                            name="task_description" class="materialize-textarea"></textarea>
                             <label for="task_description">{{ __('tasks.description') }}</label>
                         </div>
                     </div>
@@ -50,8 +58,6 @@
                 
             </form>
         </div>
-
-        @yield('comments')
 
     </main>
 

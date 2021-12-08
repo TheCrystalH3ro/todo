@@ -13,6 +13,7 @@ return [
     'create' => 'New task',
     'createButton' => 'Create task',
     'editButton' => 'Edit task',
+    'saveButton' => 'Save task',
     'myList' => 'My tasks',
 
     'name' => 'Name',
