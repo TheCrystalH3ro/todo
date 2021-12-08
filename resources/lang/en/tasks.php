@@ -12,7 +12,12 @@ return [
 
     'create' => 'New task',
     'createButton' => 'Create task',
+    'editButton' => 'Edit task',
     'myList' => 'My tasks',
+
+    'name' => 'Name',
+    'description' => 'Description',
+    'owner' => 'Owner',
 
     'categories' => 'Categories',
     'editCategories' => 'Manage categories',
@@ -26,7 +31,13 @@ return [
     'visibility-info-public' => 'task can be seen by everyone.',
     'visibility-info-private' => 'task can only be seen by its members.',
 
-    'name' => 'Name',
-    'description' => 'Description'
+    'members' => 'Members',
+    'shareWith' => 'Share task with other people.',
+    'user' => 'Enter a username',
+    'deleteMember' => 'Remove user',
+    'deleteMemberConfirmation' => 'Do you really want to delete user :name from this task?',
+
+    'comments' => 'Comments',
+    'comment' => 'Comment',
 
 ];

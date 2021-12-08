@@ -15,5 +15,6 @@ return [
     'nothing' => 'Nothing to see here',
     'done' => 'Done',
     'save' => 'Save',
+    'cancel' => 'Cancel',
 
 ];
