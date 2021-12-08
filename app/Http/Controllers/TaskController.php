@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -12,7 +13,12 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('task.tasks-list');
+
+        $categories = Category::all();
+
+        return view('task.tasks-list', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -21,7 +27,12 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('task.task-new');
+
+        $categories = Category::all();
+        
+        return view('task.task-new', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -41,7 +52,13 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        return view('task.task-new');
+
+        $task = null;
+
+        return view('task.task-single', [
+            'task' => $task,
+            'isEdit' => false
+        ]);
     }
 
     /**
@@ -51,7 +68,16 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        return view('task.task-edit');
+
+        //GET ALL UNSELECTED CATEGORIES
+        $categories = Category::whereDoesntHave('Tasks', function ($query) use($id) {
+                        $query->where('tasks.id', $id);
+                    })->get();
+        
+        return view('task.task-edit', [
+            'categories' => $categories,
+            'isEdit' => true
+        ]);
     }
 
     /**
