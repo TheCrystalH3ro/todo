@@ -75,11 +75,15 @@
             
             <div class="task-footer col s12">
                 
-                <button type="submit" class="waves-effect waves-light chip text-white btn teal lighten-2"> 
-                    <i class="material-icons">edit</i> 
-                    {{ __('tasks.editButton') }} 
-                </button>
-
+                @if ($isMember)
+                
+                    <button type="submit" class="waves-effect waves-light chip text-white btn teal lighten-2"> 
+                        <i class="material-icons">edit</i> 
+                        {{ __('tasks.editButton') }} 
+                    </button>
+                
+                @endif
+                
                 <span>
                     {{ __('tasks.owner') }}:
                     <a href="{{ url('/user/' . $task->owner->id) }}">
