@@ -17,9 +17,9 @@
 
                 <div class="addPerson">
 
-                    <h3> <i class="material-icons">reply</i> {{ __('tasks.shareWith') }} </h3>
+                    <h5> <i class="material-icons">reply</i> {{ __('tasks.shareWith') }} </h5>
 
-                    <div class="input-field">
+                    <div class="invite input-field">
 
                         <div class="input-field inline">
 
@@ -77,6 +77,10 @@
                         @endif
 
                         @foreach ($task->members as $member)
+
+                            @if ($member->id == $task->owner->id)
+                                @continue
+                            @endif
                             
                             <tr class="member member-{{ $member->id }}">
                                 
