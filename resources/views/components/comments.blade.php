@@ -3,13 +3,13 @@
 
     <input type="hidden" name="task" value="{{ $task->id }}">
     
-    <div class="comments">
+    <div class="comments container blue-grey lighten-5">
 
         <div class="row">
             <h4> {{ __('tasks.comments') }} </h4>
         </div>
 
-        <div class="row">
+        <div class="message-input row">
             <div class="input-field inline col s12">
                 <textarea name="comment" id="comment-box" class="materialize-textarea"></textarea>
                 <label for="comment-box"> {{ __('tasks.comment') }} </label>

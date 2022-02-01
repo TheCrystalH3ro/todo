@@ -2,7 +2,7 @@
 
 @section('main')
 
-    <main class="task">
+    <main class="task single">
         
         <div class="task-box container row blue-grey lighten-5">
 
@@ -12,7 +12,7 @@
             
             <div class="task-body col s12">
 
-                <div class="row">
+                <div class="task-top row">
                     <div class="col s7">
                         <h4>
                             {{ $task->name }}
@@ -29,7 +29,7 @@
                         @else
 
                             <span class="chip">
-                                <i class="material-icons">visibility_off</i> : {{ __('tasks.public') }}
+                                <i class="material-icons">visibility_off</i> : {{ __('tasks.private') }}
                             </span>
                             
                         @endif
@@ -63,7 +63,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="task-detail row">
                     <div class="col s12">
                         <p>
                             {{ $task->description }}
@@ -77,10 +77,10 @@
                 
                 @if ($isMember)
                 
-                    <button type="submit" class="waves-effect waves-light chip text-white btn teal lighten-2"> 
+                    <a href="{{ url('tasks/'. $task->id . '/edit') }}" type="submit" class="waves-effect waves-light chip text-white btn teal lighten-2"> 
                         <i class="material-icons">edit</i> 
                         {{ __('tasks.editButton') }} 
-                    </button>
+                    </a>
                 
                 @endif
                 

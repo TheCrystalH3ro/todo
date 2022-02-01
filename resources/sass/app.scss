@@ -174,8 +174,10 @@ nav {
 
 .task {
 
-    .task-box {
-        margin-top: 2rem;
+    padding: 2rem 0;
+
+    .task-box,
+    .comments {
         padding: 2rem 1rem;
         border-radius: 1rem;
     }
@@ -198,6 +200,21 @@ nav {
 
     .task-body {
         margin: 1.5rem 0;
+    }
+
+    .task-footer {
+
+        display: flex;
+        justify-content: space-between;
+
+        .chip .material-icons {
+            vertical-align: sub;
+        }
+
+        span {
+            align-self: flex-end;
+        }
+
     }
 
     .modal-footer {
@@ -249,6 +266,89 @@ nav {
         .category-item {
             margin-bottom: 0.5em;
         }
+    }
+
+    #members {
+
+        .addPerson {
+
+            .invite {
+                display: flex;
+
+                .btn-flat {
+                    padding: 0;
+                }
+            }
+
+            .invite > .input-field:first-child {
+                width: 100%;
+            }
+
+        }
+
+    }
+
+    .comments {
+
+        margin-top: 2rem;
+
+        .message-input {
+            display: flex;
+        }
+
+    }
+
+}
+
+.task.single {
+
+    .task-top {
+        display: flex;
+
+        h4 {
+            margin-top: 0;
+        }
+
+        .s5 {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            .chip {
+                margin: 0 0 0.912rem 0;
+
+                .material-icons {
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+
+    .task-controls {
+
+        .task-controls-main {
+            display: flex;
+            align-items: center;
+        }
+
+        .task-controls-side {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+
+    .task-detail {
+
+        p {
+            padding: 1rem;
+            border-radius: 1rem;
+            background-color: #e4e4e4;
+        }
+
+    }
+
+    .category-list .category-item {
+        margin-bottom: 0;
     }
 
 }
