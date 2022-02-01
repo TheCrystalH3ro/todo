@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model {
     use HasFactory;
 
-    public function users() {
-        return $this->belongsToMany(User::class);
+    public function members() {
+        return $this->belongsToMany(User::class, 'task_user');
     }
 
     public function comments() {
         return $this->hasMany(Comment::class);
     }
 
-    public function category() {
-        return $this->hasOne(Category::class);
+    public function categories() {
+        return $this->belongsToMany(Category::class, 'task_category');
     }
 
 }

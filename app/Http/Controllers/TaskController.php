@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -43,6 +46,29 @@ class TaskController extends Controller
      */
     public function store(Request $request) {
 
+        $this->validate($request, [
+            'task_name' => 'required|string',
+            'task_description' => 'string',
+            'add-category' => 'array',
+            'add-category.*' => 'integer'
+        ]);
+
+        $task = new Task();
+
+        $task->name = $request->input('task_name');
+        $task->description = $request->input('task_description');
+        $task->visibility = ($request->input('visibility') && 'on') ? 1 : 0;
+        $task->status = 0;
+
+        if($task->save()) {
+
+            $task->categories()->sync($request->input('add-category'));
+            $task->members()->attach(Auth::id(), ['isOwner' => 1]);
+
+        }
+
+        return redirect('tasks/'.$task->id);
+
     }
 
     /**
@@ -53,11 +79,24 @@ class TaskController extends Controller
      */
     public function show($id) {
 
-        $task = null;
+        $task = Task::with('categories', 'members', 'comments')->find($id);
+
+        if(!$task) {
+            abort(404);
+        }
+
+        $task->owner = User::whereHas('tasks', function ($query) use ($id) {
+            $query->where('tasks.id', $id);
+            $query->where('task_user.isOwner', 1);
+        })->first();
+
+        $isMember = $task->members()->where('users.id', Auth::id())->exists();
 
         return view('task.task-single', [
             'task' => $task,
-            'isEdit' => false
+            'isEdit' => false,
+            'isOwner' => ($task->owner) ? ($task->owner->id == Auth::id()) : false,
+            'isMember' => $isMember,
         ]);
     }
 
