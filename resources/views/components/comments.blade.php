@@ -42,7 +42,10 @@
                     </h6>
 
                     <span class="comment-time">
-                        {{ Carbon\Carbon::parse($comment->created_at)->diffForHumans()  }}
+                        @if ($comment->updated_at != $comment->created_at)
+                            <i class="material-icons">edit</i>
+                        @endif
+                        {{ Carbon\Carbon::parse($comment->updated_at)->diffForHumans()  }}
                     </span>
 
                 </div>
