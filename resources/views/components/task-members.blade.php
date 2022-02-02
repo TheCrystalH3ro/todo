@@ -12,8 +12,10 @@
         {{-- ADD USER FORM --}}
         @if ($isOwner)
             
-            <form action="" method="post">
+            <form action="{{ url('tasks/'. $task->id . '/members') }}" method="post">
                 @csrf
+
+                <input type="hidden" name="task" value="{{ $task->id }}">
 
                 <div class="addPerson">
 
@@ -67,15 +69,6 @@
 
                         </tr>
 
-                        {{-- DELETE USER FORM --}}
-                        @if ($isOwner)
-
-                            <form action="" method="POST">
-                                @csrf
-                                @method('DESTROY')
-                            
-                        @endif
-
                         @foreach ($task->members as $member)
 
                             @if ($member->id == $task->owner->id)
@@ -89,33 +82,41 @@
                                 </td>
                                 
                                 <td class="control">
+
+                                    {{-- DELETE USER FORM --}}
                                     @if ($isOwner)
-                                        
-                                        <a class="modal-trigger" href="#member-delete-{{$member->id}}"> 
-                                            <i class="material-icons">clear</i> 
-                                        </a>
 
-                                        <div id="member-delete-{{$member->id}}" class="modal">
+                                        <form action="{{ url('tasks/'. $task->id . '/members/' . $member->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            
+                                            <a class="modal-trigger" href="#member-delete-{{$member->id}}"> 
+                                                <i class="material-icons">clear</i> 
+                                            </a>
 
-                                            <div class="modal-content">
+                                            <div id="member-delete-{{$member->id}}" class="modal">
 
-                                                <h5>{{ __('tasks.deleteMemberConfirmation', ['name' => $member->name]) }}</h5>
+                                                <div class="modal-content">
 
-                                                <div class="input-field">
+                                                    <h5>{!! __('tasks.deleteMemberConfirmation', ['name' => $member->name]) !!}</h5>
 
-                                                    <button type="submit" name="member-remove" value="{{ $member->id }}">
-                                                        {{ __('tasks.deleteMember') }}
-                                                    </button>
+                                                    <div class="input-field">
 
-                                                    <a class="modal-close waves-effect waves-light chip text-white btn modal-trigger teal lighten-2">
-                                                        <span>{{ __('general.cancel') }}</span>
-                                                    </a>
+                                                        <button type="submit" class="waves-effect waves-red chip btn" name="member-remove" value="{{ $member->id }}">
+                                                            {{ __('tasks.deleteMember') }}
+                                                        </button>
+
+                                                        <a class="waves-effect waves-light chip text-white btn modal-trigger teal lighten-2" onclick="$('#member-delete-{{$member->id}}').modal('close');">
+                                                            <span>{{ __('general.cancel') }}</span>
+                                                        </a>
+
+                                                    </div>
 
                                                 </div>
 
                                             </div>
 
-                                        </div>
+                                        </form>
 
                                     @endif
                                 </td>
@@ -123,10 +124,6 @@
                             </tr>
 
                         @endforeach
-
-                        @if ($isOwner)
-                            </form>
-                        @endif
 
                     </tbody>
                 </table>

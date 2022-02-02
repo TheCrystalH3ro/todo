@@ -36,7 +36,7 @@ return [
     'shareWith' => 'Share this task with other people.',
     'user' => 'Enter a username',
     'deleteMember' => 'Remove user',
-    'deleteMemberConfirmation' => 'Do you really want to delete user :name from this task?',
+    'deleteMemberConfirmation' => 'Do you really want to delete user <b>:name</b> from this task?',
 
     'delete' => 'Delete',
     'deleteConfirmation' => 'Do you really want to delete this task permanently?',

@@ -291,6 +291,8 @@ nav {
 
     #members {
 
+        max-height: 100%;
+
         .addPerson {
 
             .invite {
@@ -305,6 +307,59 @@ nav {
                 width: 100%;
             }
 
+        }
+
+        .member-box {
+            height: 14rem;
+            overflow: auto;
+            margin-top: 1rem;
+            border-radius: 1rem;
+        }
+
+        .member {
+
+            td {
+                padding: 1rem;
+            }
+
+            .material-icons {
+                vertical-align: middle;
+            }
+
+            .control {
+                display: flex;
+                justify-content: flex-end;
+
+                .material-icons {
+                    vertical-align: bottom;
+                    color: gray;
+                }
+
+                .material-icons:hover {
+                    color: darkred;
+                }
+
+                .modal {
+                    .input-field {
+
+                        display: flex;
+                        justify-content: center;
+                        width: 65%;
+                        margin: 2rem auto 1rem;
+            
+                        .chip {
+                            width: 100%;
+                            margin: 0 1rem;
+                        }
+            
+                        button:hover {
+                            background-color: $red_darken_1;
+                            color: white;
+                        }
+            
+                    }
+                }
+            }
         }
 
     }
