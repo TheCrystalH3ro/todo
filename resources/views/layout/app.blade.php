@@ -30,6 +30,7 @@
 
             $('#members').modal({
                 onCloseStart: () => {
+                    $('.member .modal').modal('close');
                     $('body').css('overflow', 'initial');
                 }
             });
