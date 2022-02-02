@@ -2,7 +2,7 @@
 
 @section('main')
 
-    <main class="task single">
+    <main class="task single" data-task="{{ $task->id }}">
         
         <div class="task-box container row blue-grey lighten-5">
 
@@ -46,15 +46,31 @@
                         
                         @if ($isOwner)
                             
-                            <form action="" method="POST">
-                                @method('DESTROY')
+                            <form action="{{ url('tasks/'. $task->id) }}" method="POST">
+                                @method('DELETE')
                                 @csrf
                                 
-                                <input type="hidden" name="delete-task" value="{{ $task->id }}">
-                                
-                                <button class="waves-effect waves-light btn-floating red darken-1" type="submit">
+                                <a href="#delete-task" class="waves-effect waves-light btn-floating red darken-1 modal-trigger">
                                     <i class="material-icons">delete_forever</i>
-                                </button>
+                                </a>
+
+                                <div id="delete-task" class="modal">
+                                    <div class="modal-content">
+                                        <h5>{{ __('tasks.deleteConfirmation') }}</h5>
+                                        
+                                        <div class="input-field">
+
+                                            <button type="submit" class="waves-effect waves-red chip btn" name="delete-task" value="{{ $task->id }}">
+                                                {{ __('tasks.delete') }}
+                                            </button>
+
+                                            <a class="modal-close waves-effect waves-light chip text-white btn teal lighten-2">
+                                                <span>{{ __('general.cancel') }}</span>
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
                                 
                             </form>
                         

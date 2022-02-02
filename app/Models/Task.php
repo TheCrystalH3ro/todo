@@ -20,4 +20,16 @@ class Task extends Model {
         return $this->belongsToMany(Category::class, 'task_category');
     }
 
+    public function removeRelation($relation) {
+
+        foreach($relation as $item) {
+
+            $item->delete();
+
+        }
+
+        $this->save();
+
+    }
+
 }

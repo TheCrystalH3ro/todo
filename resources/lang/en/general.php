@@ -16,5 +16,7 @@ return [
     'done' => 'Done',
     'save' => 'Save',
     'cancel' => 'Cancel',
+    'yes' => 'Yes',
+    'no' => 'No',
 
 ];

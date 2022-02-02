@@ -33,10 +33,13 @@ return [
     'visibility-info-private' => 'task can only be seen by its members.',
 
     'members' => 'Members',
-    'shareWith' => 'Share task with other people.',
+    'shareWith' => 'Share this task with other people.',
     'user' => 'Enter a username',
     'deleteMember' => 'Remove user',
     'deleteMemberConfirmation' => 'Do you really want to delete user :name from this task?',
+
+    'delete' => 'Delete',
+    'deleteConfirmation' => 'Do you really want to delete this task permanently?',
 
     'comments' => 'Comments',
     'comment' => 'Comment',

@@ -47,9 +47,9 @@ class TaskController extends Controller
     public function store(Request $request) {
 
         $this->validate($request, [
-            'task_name' => 'required|string',
-            'task_description' => 'string',
-            'add-category' => 'array',
+            'task_name' => 'required|string', // NAME OF TASK
+            'task_description' => 'string', // TASK DESCRIPTION
+            'add-category' => 'array', // ARRAY OF CATEGORY IDs
             'add-category.*' => 'integer'
         ]);
 
@@ -81,6 +81,7 @@ class TaskController extends Controller
 
         $task = Task::with('categories', 'members', 'comments')->find($id);
 
+        //TASK NOT FOUND
         if(!$task) {
             abort(404);
         }
@@ -138,5 +139,31 @@ class TaskController extends Controller
      */
     public function destroy($id) {
         
+        $task = Task::with('comments')->find($id);
+
+        //TASK NOT FOUND
+        if(!$task) {
+            abort(404);
+        }
+
+        //CHECK IF LOGGED USER IS OWNER OF TASK
+        $isOwner = User::whereHas('tasks', function ($query) use ($id) {
+            $query->where('tasks.id', $id);
+            $query->where('task_user.isOwner', 1);
+        })->where('users.id', Auth::id())->exists();
+
+        if(!$isOwner) {
+            abort(403);
+        }
+
+        $task->categories()->detach();
+        $task->members()->detach();
+
+        $task->removeRelation($task->comments);
+
+        $task->delete();
+
+        return redirect('tasks');
+
     }
 }
