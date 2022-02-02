@@ -13,7 +13,7 @@ class Comment extends Model {
         return $this->belongsTo(Task::class);
     }
 
-    public function users() {
+    public function user() {
         return $this->belongsTo(User::class);
     }
 }

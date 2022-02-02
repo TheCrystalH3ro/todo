@@ -134,6 +134,90 @@ function deleteCategoryBox(id) {
 
 }
 
+/* -- COMMENT EDIT -- */
+
+var commentMessage = [];
+var commentIsEditing = [];
+
+function editComment(comment, id) {
+
+    commentIsEditing[id] = true;
+
+    let body = comment.find('.comment-body');
+
+    let message = body.text().trim();
+
+    commentMessage[id] = message;
+
+    body.empty();
+
+    body.append('<div class="input-field col s12" style="float: none;"> <textarea name="comment" class="materialize-textarea">'+ message +'</textarea></div>');
+
+    body.find('.materialize-textarea').select().focus();
+
+    let footer = comment.find('.comment-footer');
+
+    footer.prepend('<span class="save"> <button class="save-btn" data-comment="'+ id +'">Save</button> | </span>');
+
+    footer.find('.edit-btn').text('Cancel');
+
+}
+
+function closeEditComment(comment, id) {
+
+    commentIsEditing[id] = false;
+
+    let body = comment.find('.comment-body');
+
+    body.empty();
+
+    body.append(commentMessage[id]);
+
+    let footer = comment.find('.comment-footer');
+
+    footer.find('.edit-btn').text('Edit');
+
+    footer.find('.save').remove();
+
+}
+
+function saveComment(comment, id) {
+
+    let body = comment.find('.comment-body');
+
+    let message = body.find('.materialize-textarea').val();
+
+    commentMessage[id] = message;
+
+    let csrf = $('.comments input[name="_token"]').val();
+
+    let task_id = $('.task').data('task');
+
+    let url = BASE_URL + '/tasks/'+ task_id +'/comments/' + id;
+
+    let data = {
+        id: id,
+        comment: message,
+        _token: csrf,
+        _method: 'PATCH'
+    };
+
+    $.ajax({
+        type: 'PATCH',
+        url: url,
+        data: data,
+        success: (data) => {
+            
+        },
+        error: (data) => {
+            
+        }
+    });
+
+    closeEditComment(comment, id);
+
+}
+
 /* -- EVENTS --  */
 
 //SELECT CATEGORY FROM DRODPOWN
@@ -192,5 +276,34 @@ $('#visibility input').on('change', (event) => {
     let message = getVisibilityMessage(value);
 
     $('#visibility h4 i').text(message);
+
+});
+
+$('.comment .edit-btn').on('click', (event) => {
+
+    let element = $(event.target);
+
+    let comment_id = element.data('comment');
+
+    let comment = $('#comment-' + comment_id);
+
+    if(commentIsEditing[comment_id]) {
+        closeEditComment(comment, comment_id);
+        return;
+    }
+
+    editComment(comment, comment_id);
+
+});
+
+$(document).on('click', '.comment .save-btn', (event) => {
+
+    let element = $(event.target);
+
+    let comment_id = element.data('comment');
+
+    let comment = $('#comment-' + comment_id);
+
+    saveComment(comment, comment_id);
 
 });

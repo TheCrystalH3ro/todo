@@ -30,6 +30,10 @@
         });
     </script>
 
+    <script>
+        const BASE_URL = '{{ url('/') }}';
+    </script>
+
     <script src="{{ asset('js/app.js') }}"></script>
 
 @endsection

@@ -1,9 +1,10 @@
-<form action="" method="post">
-    @csrf
+<div class="comments container blue-grey lighten-5">
 
-    <input type="hidden" name="task" value="{{ $task->id }}">
+    <form action="{{ url('tasks/' . $task->id . '/comments') }}" method="post">
+        @csrf
+        @method('post')
     
-    <div class="comments container blue-grey lighten-5">
+        <input type="hidden" name="task" value="{{ $task->id }}">
 
         <div class="row">
             <h4> {{ __('tasks.comments') }} </h4>
@@ -24,40 +25,56 @@
             </div>
         </div>
 
-        <div class="comment-list">
+    </form>
 
-            @foreach ($task->comments as $comment)
-                
-                <div class="comment row">
+    <div class="comment-list">
 
-                    <div class="comment-header">
-                        
-                        <h6>
-                            <a href="{{ url('/user/' . $comment->user->id) }}">
-                                {{ $comment->user->name }}
-                            </a>
-                        </h6>
+        @foreach ($task->comments as $comment)
+            
+            <div id="comment-{{ $comment->id }}" class="comment row">
 
-                    </div>
+                <div class="comment-header">
+                    
+                    <h6>
+                        <a href="{{ url('/user/' . $comment->user_id) }}">
+                            {{ $comment->user->name }}
+                        </a>
+                    </h6>
 
-                    <div class="comment-body">
-
-                        {{ $comment->message }}
-
-                    </div>
-
-                    <div class="comment-footer">
-
-                        {{ Carbon::parse($comment->created_at)->diffForHumans()  }}
-
-                    </div>
+                    <span class="comment-time">
+                        {{ Carbon\Carbon::parse($comment->created_at)->diffForHumans()  }}
+                    </span>
 
                 </div>
 
-            @endforeach
+                <div class="comment-body">
 
-        </div>
+                    {{ $comment->message }}
+
+                </div>
+
+                <div class="comment-footer">
+
+                    @if ($comment->user_id == Auth::id())
+                        <button class="edit-btn" data-comment="{{ $comment->id }}">Edit</button> <span> | </span>
+                    @endif
+
+                    @if ($comment->user_id == Auth::id() || $isOwner)
+                        <form action="{{ url('tasks/' . $task->id . '/comments/' . $comment->id) }}" method="post" class="inline">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="delete-btn"> Delete </button>
+
+                        </form>
+                    @endif
+
+                </div>
+
+            </div>
+
+        @endforeach
 
     </div>
 
-</form>
+</div>
