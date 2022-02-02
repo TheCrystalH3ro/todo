@@ -109,12 +109,30 @@ class TaskController extends Controller
      */
     public function edit($id) {
 
+        $task = Task::find($id);
+
+        //TASK NOT FOUND
+        if(!$task) {
+            abort(404);
+        }
+
+        //CHECK IF MEMBER WITH LOGGED USER ID EXISTS
+        $isMember = User::whereHas('tasks', function ($query) use ($id) {
+            $query->where('tasks.id', $id);
+        })->where('users.id', Auth::id())->exists();
+
+        //EDITING ALLOWED ONLY FOR MEMBERS
+        if(!$isMember) {
+            abort(403);
+        }
+
         //GET ALL UNSELECTED CATEGORIES
         $categories = Category::whereDoesntHave('Tasks', function ($query) use($id) {
                         $query->where('tasks.id', $id);
                     })->get();
         
         return view('task.task-edit', [
+            'task' => $task,
             'categories' => $categories,
             'isEdit' => true
         ]);
@@ -128,6 +146,41 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
+
+        $this->validate($request, [
+            'task_name' => 'required|string', // NAME OF TASK
+            'task_description' => 'string', // TASK DESCRIPTION
+            'add-category' => 'array', // ARRAY OF CATEGORY IDs
+            'add-category.*' => 'integer'
+        ]);
+        
+        $task = Task::find($id);
+
+        //TASK NOT FOUND
+        if(!$task) {
+            abort(404);
+        }
+
+        //CHECK IF MEMBER WITH LOGGED USER ID EXISTS
+        $isMember = User::whereHas('tasks', function ($query) use ($id) {
+            $query->where('tasks.id', $id);
+        })->where('users.id', Auth::id())->exists();
+
+        //EDITING ALLOWED ONLY FOR MEMBERS
+        if(!$isMember) {
+            abort(403);
+        }
+
+        $task->name = $request->input('task_name');
+        $task->description = $request->input('task_description');
+        $task->visibility = ($request->input('visibility') && 'on') ? 1 : 0;
+        $task->status = ($request->input('status') && 'on') ? 1 : 0;;
+
+        $task->categories()->sync($request->input('add-category'));
+
+        $task->save();
+
+        return redirect('tasks/'.$task->id);
         
     }
 

@@ -41,11 +41,7 @@
 
                     <div class="row">
                         <div class="input-field col s12">
-                            <textarea id="task_description"
-                                @isset($task)
-                                    value="{{ $task->description }}"
-                                @endisset
-                            name="task_description" class="materialize-textarea"></textarea>
+                            <textarea id="task_description" name="task_description" class="materialize-textarea">@isset($task){{ $task->description }}@endisset</textarea>
                             <label for="task_description">{{ __('tasks.description') }}</label>
                         </div>
                     </div>

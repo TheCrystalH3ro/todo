@@ -211,6 +211,16 @@ nav {
 
     .task-body {
         margin: 1.5rem 0;
+
+        .task-controls {
+
+            .task-controls-main {
+                .switch label input[type=checkbox][disabled] + .lever:after, .switch label input[type=checkbox][disabled]:checked + .lever:after {
+                    background-color: #26a69a;
+                }
+            }
+
+        }
     }
 
     .task-footer {
