@@ -1,4 +1,7 @@
 $table_hover: #cfd8dc !important;
+$light_gray: #e4e4e4;
+$red_darken_1: #e53935;
+$teal_lighten_2: #4db6ac;
 
 .m-0 {
     margin: 0;
@@ -22,7 +25,7 @@ $table_hover: #cfd8dc !important;
 }
 
 .text-white {
-    color: white;
+    color: white!important;
 }
 
 .text-shadow {
@@ -47,6 +50,10 @@ $table_hover: #cfd8dc !important;
 
 .text-link.text-white:hover {
     border-bottom: 1px solid white;
+}
+
+.inline {
+    display: inline;
 }
 
 .error-box {
@@ -176,6 +183,10 @@ nav {
 
     padding: 2rem 0;
 
+    a {
+        color: $teal_lighten_2;
+    }
+
     .task-box,
     .comments {
         padding: 2rem 1rem;
@@ -288,12 +299,88 @@ nav {
 
     }
 
+    #delete-task {
+
+        h5 {
+            text-align: center;
+        }
+
+        .input-field {
+
+            display: flex;
+            justify-content: center;
+            width: 65%;
+            margin: 2rem auto 1rem;
+
+            .chip {
+                width: 100%;
+                margin: 0 1rem;
+            }
+
+            button:hover {
+                background-color: $red_darken_1;
+                color: white;
+            }
+
+        }
+
+    }
+
     .comments {
 
         margin-top: 2rem;
 
         .message-input {
             display: flex;
+        }
+
+        .comment {
+
+            .comment-header {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .comment-time {
+                align-self: center;
+            }
+
+            .comment-body {
+                margin: 0.5rem 0;
+                padding: 1rem;
+                border-radius: 1rem;
+                background-color: $light_gray;
+            }
+
+            .comment-footer {
+                padding: 0 1rem;
+
+                color: #9c9c9c;
+
+                button {
+                    padding: 0;
+                    color: #9c9c9c;
+                }
+
+                button:active,
+                button:focus {
+                    background-color: initial;
+                }
+
+                button:hover {
+                    cursor: pointer;
+                }
+
+                .edit-btn:hover,
+                .save-btn:hover {
+                    color: $teal_lighten_2;
+                }
+
+                .delete-btn:hover {
+                    color: $red_darken_1;
+                }
+            }
+
         }
 
     }
@@ -342,7 +429,7 @@ nav {
         p {
             padding: 1rem;
             border-radius: 1rem;
-            background-color: #e4e4e4;
+            background-color: $light_gray;
         }
 
     }
