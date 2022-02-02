@@ -27,6 +27,12 @@
 
             $('.modal').modal();
             $('select').formSelect();
+
+            $('#members').modal({
+                onCloseStart: () => {
+                    $('body').css('overflow', 'initial');
+                }
+            });
         });
     </script>
 
