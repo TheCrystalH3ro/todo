@@ -17,10 +17,16 @@ class TaskController extends Controller
      */
     public function index() {
 
+        $tasks = Task::whereHas('members', function ($query) {
+            $query->where('users.id', Auth::id());
+        })->get();
+
         $categories = Category::all();
 
         return view('task.tasks-list', [
+            'tasks' => $tasks,
             'categories' => $categories,
+            'isEdit' => false
         ]);
     }
 
