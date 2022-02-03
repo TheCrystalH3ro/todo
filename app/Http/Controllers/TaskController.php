@@ -93,6 +93,11 @@ class TaskController extends Controller
 
         $isMember = $task->members()->where('users.id', Auth::id())->exists();
 
+        //DISPLAY ONLY IF TASK IS PUBLIC OR USER IS A MEMBER
+        if(!$task->visibility && !$isMember) {
+            abort(403);
+        }
+
         return view('task.task-single', [
             'task' => $task,
             'isEdit' => false,
