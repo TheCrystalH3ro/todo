@@ -284,11 +284,6 @@ $(document).on('click', '.delete-category', (event) => {
 
     let id = element.data('category');
 
-    //CREATE DELETE INPUT
-    if(!$('.category-' + id + ' input').length) {
-        $('.delete-categories').append(getDeleteInput(id));
-    }
-
     $('.category-' + id).remove();
 
     addCategoryToSelect(id);

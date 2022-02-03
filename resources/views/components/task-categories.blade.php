@@ -39,6 +39,7 @@
 
                                     <td class="item">
                                         <span>{{ $category->name }}</span>
+                                        <input type="hidden" name="add-category[]" value="{{ $category->id }}">
                                     </td>
 
                                     <td class="control">
@@ -62,8 +63,4 @@
             <span>{{ __('general.done') }}</span>
         </a>
     </div>
-</div>
-
-<div class="delete-categories">
-
 </div>

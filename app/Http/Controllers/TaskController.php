@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Task;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -188,6 +189,8 @@ class TaskController extends Controller
         $task->status = ($request->input('status') && 'on') ? 1 : 0;;
 
         $task->categories()->sync($request->input('add-category'));
+
+        $task->updated_at = Carbon::now();
 
         $task->save();
 
