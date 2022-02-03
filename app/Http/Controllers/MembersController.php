@@ -59,7 +59,7 @@ class MembersController extends Controller
             return redirect('tasks/'.$task->id); 
         }
 
-        $task->members()->attach($user->id);
+        $task->members()->attach($user->id, ['isOwner' => 0]);
 
         $task->updated_at = Carbon::now();
 
