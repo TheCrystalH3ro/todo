@@ -270,6 +270,12 @@ function changeSorting() {
     changeQueryString("sort_by", sort_by);
     changeQueryString("order", order);
 
+    let page_url = window.location.href;
+    page_url = page_url.replace('&page=' + params.page, '');
+    page_url = page_url.replace('?page=' + params.page + '&', '?');
+    page_url = page_url.replace('&page=' + 1, '');
+    page_url = page_url.replace('?page=' + 1 + '&', '?');
+
     let data = {
         task_name: params.task_name,
         visibility: params.visibility,
@@ -281,10 +287,9 @@ function changeSorting() {
         to: params.to,
         sort_by: sort_by,
         order: order,
-        isAjax: 1
+        isAjax: 1,
+        page_url: page_url
     };
-
-    $('.result .list').empty();
 
     $.ajax({
         type: 'GET',
@@ -292,12 +297,15 @@ function changeSorting() {
         data: data,
         async: true,
         success: (data) => {
-            $('.result .list').append(data);
+            $('.result .list, .pagination').remove();
+            $('.result').append(data);
         },
         error: (data) => {
             
         }
     });
+
+    changeQueryString("page", 1);
 
 }
 

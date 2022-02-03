@@ -183,6 +183,7 @@ class TaskController extends Controller
             'sort_by' => 'integer|nullable',
             'order' => 'boolean|nullable',
             'isAjax' => 'boolean',
+            'page_url' => 'string',
         ]);
 
         //GET FILTERED TASKS
@@ -214,6 +215,13 @@ class TaskController extends Controller
         $page = $request->query('page', 1);
 
         $page_url = URL::full();
+
+        $view = 'task.tasks-list';
+
+        if($request->input('isAjax')) {
+            $page_url = $request->input('page_url');
+            $view = 'components.show-tasks';
+        }
         
         if(!$request->input('page')) {
 
@@ -226,12 +234,6 @@ class TaskController extends Controller
         $tasks = $tasks->limit($limit)->offset(($page - 1)  * $limit)->get();
 
         $categories = Category::all();
-
-        $view = 'task.tasks-list';
-
-        if($request->input('isAjax')) {
-            $view = 'components.show-tasks';
-        }
 
         return view($view, [
             'tasks' => $tasks,
