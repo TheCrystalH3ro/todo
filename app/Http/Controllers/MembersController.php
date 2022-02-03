@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -60,6 +61,10 @@ class MembersController extends Controller
 
         $task->members()->attach($user->id);
 
+        $task->updated_at = Carbon::now();
+
+        $task->save();
+
         return redirect('tasks/'.$task->id);
 
     }
@@ -105,6 +110,12 @@ class MembersController extends Controller
         }
 
         $task->members()->detach($user_id);
+
+        $task->updated_at = Carbon::now();
+
+        unset($task->owner);
+
+        $task->save();
 
         return redirect('tasks/'.$task_id);
 

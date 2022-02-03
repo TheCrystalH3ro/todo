@@ -53,7 +53,11 @@ class CommentController extends Controller
         $comment->task_id = $task->id;
         $comment->user_id = Auth::id();
 
-        $comment->save();
+        if($comment->save()) {
+            $task->updated_at = Carbon::now();
+
+            $task->save();
+        } 
 
         return redirect('tasks/'.$task->id);
 
@@ -79,6 +83,15 @@ class CommentController extends Controller
             abort(404);
         }
 
+        //CHECK IF COMMENT BELONGS TO TASK
+        $task = Task::whereHas('comments', function ($query) use ($comment_id) {
+            $query->where('comments.id', $comment_id);
+        })->where('tasks.id', $task_id)->first();
+
+        if(!$task) {
+            abort(403);
+        }
+
         //CHECK IF LOGGED USER IS OWNER OF COMMENT
         $isAuthor = User::whereHas('comments', function ($query) use ($comment_id) {
             $query->where('comments.id', $comment_id);
@@ -102,7 +115,11 @@ class CommentController extends Controller
 
         $comment->updated_at = Carbon::now();
 
-        $comment->save();
+        if($comment->save()) {
+            $task->updated_at = Carbon::now();
+
+            $task->save();
+        }       
 
     }
 
@@ -119,6 +136,15 @@ class CommentController extends Controller
         //COMMENT NOT FOUND
         if(!$comment) {
             abort(404);
+        }
+
+        //CHECK IF COMMENT BELONGS TO TASK
+        $task = Task::whereHas('comments', function ($query) use ($comment_id) {
+            $query->where('comments.id', $comment_id);
+        })->where('tasks.id', $task_id)->first();
+
+        if(!$task) {
+            abort(403);
         }
 
         //CHECK IF LOGGED USER IS OWNER OF COMMENT
@@ -140,7 +166,11 @@ class CommentController extends Controller
 
         }
 
-        $comment->delete();
+        if($comment->delete()) {
+            $task->updated_at = Carbon::now();
+
+            $task->save();
+        } 
 
         return redirect('tasks/'.$task_id);
 
