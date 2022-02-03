@@ -218,6 +218,36 @@ function saveComment(comment, id) {
 
 }
 
+/* -- AJAX FORM -- */
+
+function sendForm(form) {
+
+    let methodInput = form.find('input[name="_method"]');
+
+    let method = methodInput.length ? methodInput.val() : form.attr('method');
+
+    var result = {
+        success: false,
+    };
+
+    $.ajax({
+        type: method,
+        url: form.attr('action'),
+        data: form.serialize(),
+        async: false,
+        success: (data) => {
+            result.success = true;
+            result.data = data;
+        },
+        error: (data) => {
+            
+        }
+    });
+
+    return result;
+
+}
+
 /* -- EVENTS --  */
 
 //SELECT CATEGORY FROM DRODPOWN
@@ -307,3 +337,75 @@ $(document).on('click', '.comment .save-btn', (event) => {
     saveComment(comment, comment_id);
 
 });
+
+// $('#members .add-member-form').on('submit', (event) => {
+
+//     event.preventDefault();
+
+//     let form = $(event.target);
+
+//     let result = sendForm(form);
+
+//     if(!result.success) {
+//         $('#username').val('');
+//         return;
+//     }
+
+//     let data = form.serializeArray().reduce(function(m,o){  m[o.name] = o.value; return m;}, {});
+
+//     let task_id = $('.task').data('task');
+
+//     let item = '<td class="item"><span>'+ data.username +'</span></td>';
+
+//     let control = `<td class="control">
+//         <form class="delete-member-form" action="`+ BASE_URL + '/tasks/' + task_id + '/members/' + result.data + `" method="POST">
+//             <input type="hidden" name="_token" value="`+ data._token +`">
+//             <input type="hidden" name="_method" value="DELETE">
+//             <a class="modal-trigger" href="#member-delete-`+ result.data +`"> 
+//                 <i class="material-icons">clear</i> 
+//             </a>
+//             <div id="member-delete-`+ result.data +`" class="modal">
+
+//                 <div class="modal-content">
+
+//                     <h5>`+ membersLang.deleteMemberConfirm(data.username) +`</h5>
+
+//                     <div class="input-field">
+
+//                         <button type="submit" class="waves-effect waves-red chip btn" name="member-remove" value="`+ result.data +`">
+//                             `+ membersLang.deleteMember +`
+//                         </button>
+
+//                         <a class="waves-effect waves-light chip text-white btn modal-trigger teal lighten-2" onclick="$('#member-delete-`+ result.data +`').modal('close');">
+//                             <span>`+ membersLang.cancel +`</span>
+//                         </a>
+
+//                     </div>
+
+//                 </div>
+
+//             </div>
+//         </form>
+//     </td>`;
+
+//     $('#username').val('');
+
+//     $('#members .member-box tbody').append('<tr class="member member-' + result.data + '">'+ item + control + '</tr>');
+
+//     $('#members .modal').modal();
+
+// });
+
+// $(document).on('submit', '#members .delete-member-form', (event) => {
+
+//     event.preventDefault();
+
+//     let form = $(event.target);
+
+//     let result = sendForm(form);
+
+//     if(!result.success) {
+//         return;
+//     }
+
+// });

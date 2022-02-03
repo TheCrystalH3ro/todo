@@ -12,7 +12,7 @@
         {{-- ADD USER FORM --}}
         @if ($isOwner)
             
-            <form action="{{ url('tasks/'. $task->id . '/members') }}" method="post">
+            <form class="add-member-form" action="{{ url('tasks/'. $task->id . '/members') }}" method="post">
                 @csrf
 
                 <input type="hidden" name="task" value="{{ $task->id }}">
@@ -86,7 +86,7 @@
                                     {{-- DELETE USER FORM --}}
                                     @if ($isOwner)
 
-                                        <form action="{{ url('tasks/'. $task->id . '/members/' . $member->id) }}" method="POST">
+                                        <form class="delete-member-form" action="{{ url('tasks/'. $task->id . '/members/' . $member->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             
@@ -139,3 +139,13 @@
         </a>
     </div>
 </div>
+
+<script>
+
+    let membersLang = {
+        deleteMemberConfirm: (name) => { return "{!! __('tasks.deleteMemberConfirmation') !!}".replace(':name', name); },
+        deleteMember: "{{ __('tasks.deleteMember') }}",
+        cancel: "{{ __('general.cancel') }}"
+    }
+
+</script>
