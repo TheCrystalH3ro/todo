@@ -34,16 +34,21 @@ return [
     'visibility-info-public' => 'task can be seen by everyone.',
     'visibility-info-private' => 'task can only be seen by its members.',
 
+    'membership' => 'Membership',
+    'member' => 'Member',
     'members' => 'Members',
     'shareWith' => 'Share this task with other people.',
+    'sharedWith' => 'Shared with',
     'user' => 'Enter a username',
     'deleteMember' => 'Remove user',
     'deleteMemberConfirmation' => 'Do you really want to delete user <b>:name</b> from this task?',
+    'memberCount' => 'Member count',
 
     'delete' => 'Delete',
     'deleteConfirmation' => 'Do you really want to delete this task permanently?',
 
     'comments' => 'Comments',
     'comment' => 'Comment',
+    'commentCount' => 'Comment count'
 
 ];

@@ -19,5 +19,10 @@ return [
     'yes' => 'Yes',
     'no' => 'No',
     'any' => 'Any',
+    'filter' => 'Filter',
+    'sort_by' => 'Sort by', 
+    'created_at' => 'Created at',
+    'recent' => 'Recent',
+    'descending' => 'Desc',
 
 ];

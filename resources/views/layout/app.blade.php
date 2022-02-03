@@ -27,6 +27,7 @@
 
             $('.modal').modal();
             $('select').formSelect();
+            $('.datepicker').datepicker();
 
             $('#members').modal({
                 onCloseStart: () => {
