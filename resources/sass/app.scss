@@ -133,6 +133,10 @@ $teal_lighten_2: #4db6ac;
 
 nav {
 
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
     .right li i {
         margin: 0;
     }
@@ -527,7 +531,7 @@ nav {
             height: max-content;
             position: -webkit-sticky;
             position: sticky;
-            top: 2rem;
+            top: calc(2rem + 64px);
         }
     
         .result {
