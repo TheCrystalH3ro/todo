@@ -57,8 +57,8 @@
 
     <div class="row">
         <div class="input-field col s12">
-            <input type="text" name="shared-with[]" id="shared-with" @if ($shared_with) value="{{ $shared_with[0] }}" @endif>
-            <label for="shared-with">{{ __('tasks.sharedWith') }}</label>
+            <input type="text" name="shared_with[]" id="shared_with" @if ($shared_with) value="{{ $shared_with[0] }}" @endif>
+            <label for="shared_with">{{ __('tasks.sharedWith') }}</label>
         </div>
     </div>
 

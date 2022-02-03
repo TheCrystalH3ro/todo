@@ -24,10 +24,15 @@
                     </div>
 
                     <div class="input-field">
-                        <input type="hidden" name="order" value="0">
+                        <input type="hidden" name="order" value="{{ $order }}">
                         <button class="order">
-                            <i class="material-icons">keyboard_arrow_down</i>
-                            <b>{{ __('general.descending') }}</b>
+                            @if ($order)
+                                <i class="material-icons">keyboard_arrow_up</i>
+                                <b>{{ __('general.ascending') }}</b>
+                            @else    
+                                <i class="material-icons">keyboard_arrow_down</i>
+                                <b>{{ __('general.descending') }}</b>
+                            @endif
                         </button>
                     </div>
                         
@@ -35,50 +40,7 @@
 
                 <div class="list">
 
-                    @foreach ($tasks as $task)
-                        
-                        <a href="{{ url('tasks/' . $task->id) }}">
-                            <div class="task-item blue-grey lighten-5">
-
-                                <div class="task-header">
-                                    <div class="task-left">
-                                        @if ($task->visibility)
-                                            <span>
-                                                <i class="material-icons">visibility</i>
-                                            </span>
-                                        @else
-                                            <span>
-                                                <i class="material-icons">visibility_off</i>                                            </span>
-                                            </span>
-                                        @endif
-
-                                        <h6 class="inline">{{ $task->name }}</h6>
-                                    </div>
-                                    <div class="task-right">
-                                        @include('components.task-isdone')
-                                    </div>
-                                </div>
-
-                                <div class="task-body">
-                                    <div class="task-left">
-                                        <span class="member-count">
-                                            <span class="count">{{ count($task->members) }}</span>
-                                            <i class="material-icons">person</i>
-                                        </span>
-                                        <span class="comment-count">
-                                            <span class="count">{{ count($task->comments) }}</span>
-                                            <i class="material-icons">comment</i>
-                                        </span>
-                                    </div>
-                                    <div class="task-right">
-                                        @include('components.category-list')
-                                    </div>
-                                </div>
-
-                            </div>
-                        </a>
-
-                    @endforeach
+                    @include('components.show-tasks')
 
                 </div>
 
@@ -118,5 +80,12 @@
         </form>
 
     </main>
+
+    <script>
+        let filterLang = {
+            descending: "{{ __('general.descending') }}",
+            ascending: "{{ __('general.ascending') }}"
+        };
+    </script>
 
 @endsection

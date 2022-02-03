@@ -2,6 +2,10 @@ const { toInteger } = require('lodash');
 
 require('./bootstrap');
 
+const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+
 //APPEND CATEGORY
 
 //TODO: REDO FUNCTION SO IT USES AJAX TO CALL FUNCTION WHICH RETURNS CATEGORY
@@ -248,6 +252,55 @@ function sendForm(form) {
 
 }
 
+/* -- AJAX FILTERING -- */
+function changeQueryString(param, value) {
+    if ('URLSearchParams' in window) {
+        var searchParams = new URLSearchParams(window.location.search)
+        searchParams.set(param, value);
+        var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
+        history.pushState(null, '', newRelativePathQuery);
+    }
+}
+
+function changeSorting() {
+
+    sort_by = $('.filter-sort-by select[name="sort_by"]').val();
+    order = $('.filter-sort-by input[name="order"]').val();
+
+    changeQueryString("sort_by", sort_by);
+    changeQueryString("order", order);
+
+    let data = {
+        task_name: params.task_name,
+        visibility: params.visibility,
+        status: params.status,
+        category: params.category,
+        membership: params.membership,
+        shared_with: params.shared_with,
+        from: params.from,
+        to: params.to,
+        sort_by: sort_by,
+        order: order,
+        isAjax: 1
+    };
+
+    $('.result .list').empty();
+
+    $.ajax({
+        type: 'GET',
+        url: BASE_URL + '/tasks',
+        data: data,
+        async: true,
+        success: (data) => {
+            $('.result .list').append(data);
+        },
+        error: (data) => {
+            
+        }
+    });
+
+}
+
 /* -- EVENTS --  */
 
 //SELECT CATEGORY FROM DRODPOWN
@@ -330,6 +383,43 @@ $(document).on('click', '.comment .save-btn', (event) => {
     let comment = $('#comment-' + comment_id);
 
     saveComment(comment, comment_id);
+
+});
+
+$('button.order').on('click', (event) => {
+
+    event.preventDefault();
+
+    let element = $(event.target).parent();
+
+    let input = $('input[name="order"]');
+
+    if(input.val() == '1') {
+
+        input.val(0);
+
+        element.find('b').text(filterLang.descending);
+
+        element.find('.material-icons').text('keyboard_arrow_down');
+
+        changeSorting();
+
+        return;
+    }
+
+    input.val(1);
+
+    element.find('b').text(filterLang.ascending);
+
+    element.find('.material-icons').text('keyboard_arrow_up');
+
+    changeSorting();
+
+});
+
+$('.filter-sort-by select[name="sort_by"], .filter-sort-by input[name="order"]').on('change', (event) => {
+
+    changeSorting();
 
 });
 
