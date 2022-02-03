@@ -91,7 +91,7 @@ class TaskController extends Controller
             'status',
             'category',
             'membership',
-            'shared-with',
+            'shared_with',
             'from',
             'to'
         ];
@@ -124,7 +124,7 @@ class TaskController extends Controller
                         $query->where('task_user.isOwner', $membership);
                     });
                     break;
-                case 'shared-with':
+                case 'shared_with':
                     $members = $request->input($filter);
                     $tasks = $tasks->whereHas('members', function ($query) use ($members) {
 
@@ -176,12 +176,13 @@ class TaskController extends Controller
             'category' => 'array|nullable',
             'category.*' => 'integer|nullable',
             'membership' => 'boolean|nullable',
-            'shared-with' => 'array|nullable',
-            'shared-with.*' => 'string|nullable',
+            'shared_with' => 'array|nullable',
+            'shared_with.*' => 'string|nullable',
             'from' => 'date|nullable',
             'to' => 'date|nullable',
             'sort_by' => 'integer|nullable',
-            'order' => 'boolean|nullable'
+            'order' => 'boolean|nullable',
+            'isAjax' => 'boolean',
         ]);
 
         //GET FILTERED TASKS
@@ -226,7 +227,13 @@ class TaskController extends Controller
 
         $categories = Category::all();
 
-        return view('task.tasks-list', [
+        $view = 'task.tasks-list';
+
+        if($request->input('isAjax')) {
+            $view = 'components.show-tasks';
+        }
+
+        return view($view, [
             'tasks' => $tasks,
             'categories' => $categories,
             'page' => $page,
@@ -239,10 +246,11 @@ class TaskController extends Controller
             'status' => $request->input('status'),
             'category_form' => $request->input('category'),
             'membership' => $request->input('membership'),
-            'shared_with' => $request->input('shared-with'),
+            'shared_with' => $request->input('shared_with'),
             'from' => $request->input('from'),
             'to' => $request->input('to'),
-            'sort_by' =>$request->input('sort_by'),
+            'sort_by' => $request->input('sort_by'),
+            'order' => $request->query('order', 0),
             'isEdit' => false
         ]);
     }
