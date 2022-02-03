@@ -3,7 +3,7 @@
     <div class="row">
         <div class="input-field col s12">
             <input type="text" name="task_name" id="task-name" @if ($name) value="{{ $name }}" @endif>
-            <label for="task_name">{{ __('tasks.name') }}</label>
+            <label for="task-name">{{ __('tasks.name') }}</label>
         </div>
     </div>
 
@@ -58,21 +58,21 @@
     <div class="row">
         <div class="input-field col s12">
             <input type="text" name="shared-with[]" id="shared-with" @if ($shared_with) value="{{ $shared_with[0] }}" @endif>
-            <label id="shared-with">{{ __('tasks.sharedWith') }}</label>
+            <label for="shared-with">{{ __('tasks.sharedWith') }}</label>
         </div>
     </div>
 
     <div class="row">
         <div class="input-field col s12">
             <input type="text" name="from" id="from" class="datepicker" @if ($from) value="{{ $from }}" @endif>
-            <label id="from">{{ __('general.from') }}</label>
+            <label for="from">{{ __('general.from') }}</label>
         </div>
     </div>
 
     <div class="row">
         <div class="input-field col s12">
             <input type="text" name="to" id="to" class="datepicker" @if ($to) value="{{ $to }}" @endif>
-            <label id="to">{{ __('general.to') }}</label>
+            <label for="to">{{ __('general.to') }}</label>
         </div>
     </div>
 
