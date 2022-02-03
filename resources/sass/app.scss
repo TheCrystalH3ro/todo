@@ -532,6 +532,11 @@ nav {
             position: -webkit-sticky;
             position: sticky;
             top: calc(2rem + 64px);
+            z-index: 2;
+
+            .input-field, .select-wrapper input.select-dropdown {
+                margin-bottom: 0.25rem;
+            }
         }
     
         .result {

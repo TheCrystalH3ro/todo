@@ -14,11 +14,11 @@
 
                     <div class="input-field">
                         <select name="sort_by">
-                            <option value="0" selected>{{ __('general.recent') }}</option>
-                            <option value="1">{{ __('tasks.name') }}</option>
-                            <option value="1">{{ __('tasks.memberCount') }}</option>
-                            <option value="1">{{ __('tasks.commentCount') }}</option>
-                            <option value="1">{{ __('general.created_at') }}</option>
+                            <option value="0" @if (!$sort_by) selected @endif>{{ __('general.recent') }}</option>
+                            <option value="1" @if ($sort_by === "1") selected @endif>{{ __('tasks.name') }}</option>
+                            <option value="2" @if ($sort_by === "2") selected @endif>{{ __('tasks.memberCount') }}</option>
+                            <option value="3" @if ($sort_by === "3") selected @endif>{{ __('tasks.commentCount') }}</option>
+                            <option value="4" @if ($sort_by === "4") selected @endif>{{ __('general.created_at') }}</option>
                         </select>
                         <label>{{ __('general.sort_by') }}</label>
                     </div>

@@ -12,28 +12,8 @@ use Illuminate\Support\Facades\URL;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request) {
 
-        $page = $request->query('page', 1);
-
-        $limit = 1;
-
-        $results = Task::whereHas('members', function ($query) {
-            $query->where('users.id', Auth::id());
-        })->count();
-
-        $tasks = Task::whereHas('members', function ($query) {
-            $query->where('users.id', Auth::id());
-        })->limit($limit)->offset(($page - 1)  * $limit)->get();
-
-        $categories = Category::all();
-
-        $page_count = ceil($results / $limit);
+    private function pagination($page, $page_count) {
 
         //PAGE NUMBERS TO DISPLAY
         $resultPages = [1, 2, $page - 2, $page - 1, $page, $page + 1, $page + 2, $page_count - 1, $page_count];
@@ -60,29 +40,209 @@ class TaskController extends Controller
             $pages[] = $result;
 
         }
+
+        return $pages;
+
+    }
+
+    private function getSorting($sorting) {
+
+        switch($sorting) {
+
+            case 1:
+                return 'name';
+            case 2:
+                return 'members_count';
+            case 3:
+                return 'comments_count';
+            case 4:
+                return 'created_at';
+            default:
+                return 'updated_at';
+
+        }
+
+    }
+
+    private function setOrderBy($tasks, $sorting, $order) {
+
+        switch($sorting) {
+            case 'members_count':
+                $tasks = $tasks->withCount('members');
+                break;
+            case 'comments_count':
+                $tasks = $tasks->withCount('comments');
+                break;
+        }
+
+        if($order) {
+            return $tasks->orderBy($sorting);
+        } 
+
+        return $tasks->orderBy($sorting, 'DESC');
+
+    }
+
+    private function getFilters() {
+
+        return [
+            'task_name',
+            'visibility',
+            'status',
+            'category',
+            'membership',
+            'shared-with',
+            'from',
+            'to'
+        ];
+
+    }
+
+    private function setFilters($tasks, $request) {
+
+        foreach($this->getFilters() as $filter) {
+
+
+            if($request->input($filter) === false || $request->input($filter) === NULL) {
+                continue;
+            }
+
+            switch($filter) {
+                case 'task_name':
+                    $tasks = $tasks->where('name', 'LIKE', '%'. $request->input($filter) .'%');
+                    break;
+                case 'category':
+                    $categories = $request->input($filter);
+                    $tasks = $tasks->whereHas('categories', function ($query) use ($categories) {
+                        $query->whereIn('categories.id', $categories);
+                    });
+                    break;
+                case 'membership':
+                    $membership = $request->input($filter);
+                    $tasks = $tasks->whereHas('members', function ($query) use ($membership) {
+                        $query->where('users.id', Auth::id());
+                        $query->where('task_user.isOwner', $membership);
+                    });
+                    break;
+                case 'shared-with':
+                    $members = $request->input($filter);
+                    $tasks = $tasks->whereHas('members', function ($query) use ($members) {
+
+                        $index = 0;
+                        foreach($members as $member) {
+
+                            if(!$index) {
+                                $query->where('users.name', 'LIKE', "%$member%");
+                                $index++;
+                                continue;
+                            }
+
+                            $query->orWhere('users.name', 'LIKE', "%$member%");
+                            $index++;
+                        }
+
+                    });
+                    break;
+                case 'from':
+                    $from = date('Y-m-d 00:00:00', strtotime($request->input($filter)));
+                    $tasks = $tasks->where('created_at', '>=', $from );
+                    break;
+                case 'to':
+                    $to = date('Y-m-d 23:59:59', strtotime($request->input($filter)));
+                    $tasks = $tasks->where('created_at', '<=', $to );
+                    break;
+                default:
+                    $tasks = $tasks->where($filter, $request->input($filter));
+                    break;
+            }          
+
+        }
+
+        return $tasks;
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request) {
+
+        $this->validate($request, [
+            'task_name' => 'string|nullable',
+            'visibility' => 'boolean|nullable',
+            'status' => 'boolean|nullable',
+            'category' => 'array|nullable',
+            'category.*' => 'integer|nullable',
+            'membership' => 'boolean|nullable',
+            'shared-with' => 'array|nullable',
+            'shared-with.*' => 'string|nullable',
+            'from' => 'date|nullable',
+            'to' => 'date|nullable',
+            'sort_by' => 'integer|nullable',
+            'order' => 'boolean|nullable'
+        ]);
+
+        //GET FILTERED TASKS
+        $tasks = Task::whereHas('members', function ($query) {
+            $query->where('users.id', Auth::id());
+        });
+
+        $sort_by = $this->getSorting($request->input('sort_by'));
+
+        $tasks = $this->setOrderBy($tasks, $sort_by, $request->input('order'));
+
+        $tasks = $this->setFilters($tasks, $request);
+
+        //NUMBER OF RESULTS PER PAGE
+        $limit = 10;
+
+        //GET RESULT COUNT
+        $results = $tasks->count() ?: 1;
+
+        //NUMBER OF PAGES
+        $page_count = ceil($results / $limit);
+
+        //VALIDATE PAGE COUNT
+        $this->validate($request, [
+            'page' => "integer|min:1|max:$page_count",
+        ]);
+
+        //CURRENT PAGE
+        $page = $request->query('page', 1);
+
         $page_url = URL::full();
-
-        $hasPage = false;
-
-        if(str_contains(URL::full(), "page=$page")) {
-            $hasPage = true;
-        } else {
+        
+        if(!$request->input('page')) {
 
             $hasQuery = (URL::current() !== URL::full());
 
             $page_url .=  $hasQuery ? '&' : '?' ;
 
         }
-        
+
+        $tasks = $tasks->limit($limit)->offset(($page - 1)  * $limit)->get();
+
+        $categories = Category::all();
 
         return view('task.tasks-list', [
             'tasks' => $tasks,
             'categories' => $categories,
             'page' => $page,
-            'pages' => $pages,
+            'pages' => $this->pagination($page, $page_count),
             'last_page' => $page_count,
-            'has_page' => $hasPage,
+            'has_page' => ($request->input('page') != false),
             'page_url' => $page_url,
+            'name' => $request->input('task_name'),
+            'visibility' => $request->input('visibility'),
+            'status' => $request->input('status'),
+            'category_form' => $request->input('category'),
+            'membership' => $request->input('membership'),
+            'shared_with' => $request->input('shared-with'),
+            'from' => $request->input('from'),
+            'to' => $request->input('to'),
+            'sort_by' =>$request->input('sort_by'),
             'isEdit' => false
         ]);
     }

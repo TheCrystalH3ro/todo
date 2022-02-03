@@ -24,5 +24,7 @@ return [
     'created_at' => 'Created at',
     'recent' => 'Recent',
     'descending' => 'Desc',
+    'from' => 'From',
+    'to' => 'To',
 
 ];
