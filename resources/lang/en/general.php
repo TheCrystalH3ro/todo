@@ -18,5 +18,6 @@ return [
     'cancel' => 'Cancel',
     'yes' => 'Yes',
     'no' => 'No',
+    'any' => 'Any',
 
 ];

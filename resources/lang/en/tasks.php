@@ -25,6 +25,8 @@ return [
     'categories-select' => 'Select Category',
     'categories-selected' => 'Selected Categories',
 
+    'completed' => 'Completed',
+
     'visibility' => 'Visibility',
     'public' => 'Public',
     'private' => 'Private',

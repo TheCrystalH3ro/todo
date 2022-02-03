@@ -1,6 +1,6 @@
 <div class="switch">
     <label>
-      Completed:
+      {{ __('tasks.completed') }}:
       <input 
         @if (!$isEdit)
             disabled
