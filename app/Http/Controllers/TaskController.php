@@ -8,6 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class TaskController extends Controller
 {
@@ -16,17 +17,72 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
+
+        $page = $request->query('page', 1);
+
+        $limit = 1;
+
+        $results = Task::whereHas('members', function ($query) {
+            $query->where('users.id', Auth::id());
+        })->count();
 
         $tasks = Task::whereHas('members', function ($query) {
             $query->where('users.id', Auth::id());
-        })->get();
+        })->limit($limit)->offset(($page - 1)  * $limit)->get();
 
         $categories = Category::all();
+
+        $page_count = ceil($results / $limit);
+
+        //PAGE NUMBERS TO DISPLAY
+        $resultPages = [1, 2, $page - 2, $page - 1, $page, $page + 1, $page + 2, $page_count - 1, $page_count];
+
+        $pages = [];
+
+        foreach($resultPages as $result) {
+
+            //DON'T SHOW DUPLICATES
+            if(in_array($result, $pages)) {
+               continue; 
+            }
+
+            //SKIP NUMBERS OUTSIDE OF RANGE
+            if($result < 1 || $result > $page_count) {
+                continue;
+            }
+
+            //IF PAGES ARE NOT NEXT TO EACH OTHER ADD '...'
+            if($result != 1 && !in_array($result - 1, $pages)) {
+                $pages[] = '...';
+            }
+
+            $pages[] = $result;
+
+        }
+        $page_url = URL::full();
+
+        $hasPage = false;
+
+        if(str_contains(URL::full(), "page=$page")) {
+            $hasPage = true;
+        } else {
+
+            $hasQuery = (URL::current() !== URL::full());
+
+            $page_url .=  $hasQuery ? '&' : '?' ;
+
+        }
+        
 
         return view('task.tasks-list', [
             'tasks' => $tasks,
             'categories' => $categories,
+            'page' => $page,
+            'pages' => $pages,
+            'last_page' => $page_count,
+            'has_page' => $hasPage,
+            'page_url' => $page_url,
             'isEdit' => false
         ]);
     }
