@@ -77,8 +77,9 @@
     </div>
 
     <div class="row">
-        <div class="input-field col s12">
+        <div class="input-field col s12 filter-buttons">
             <button type="submit" class="waves-effect waves-light chip text-white btn teal lighten-2"> {{ __('general.filter') }} </button>
+            <a href="{{ url('/tasks') }}"class="waves-effect waves-light chip btn"> {{ __('general.resetFilter') }} </a>
         </div>
     </div>
     

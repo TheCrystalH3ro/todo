@@ -20,6 +20,7 @@ return [
     'no' => 'No',
     'any' => 'Any',
     'filter' => 'Filter',
+    'resetFilter' => 'Reset filters',
     'sort_by' => 'Sort by', 
     'created_at' => 'Created at',
     'recent' => 'Recent',

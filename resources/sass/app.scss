@@ -537,6 +537,15 @@ nav {
             .input-field, .select-wrapper input.select-dropdown {
                 margin-bottom: 0.25rem;
             }
+
+            .filter-buttons {
+                display: flex;
+                justify-content: space-between;
+
+                a:hover {
+                    color: white;
+                }
+            }
         }
     
         .result {
