@@ -61,7 +61,7 @@
                             <td class="item">
                                 <span>
                                     <i class="material-icons">person_pin</i>
-                                    {{ $task->owner->name }}
+                                    <a href="{{ url('user/'. $task->owner->id) }}">{{ $task->owner->name }}</a>
                                 </span>
                             </td>
 
@@ -78,7 +78,7 @@
                             <tr class="member member-{{ $member->id }}">
                                 
                                 <td class="item">
-                                    <span>{{ $member->name }}</span>
+                                    <a href="{{ url('user/'. $member->id) }}">{{ $member->name }}</a>
                                 </td>
                                 
                                 <td class="control">
