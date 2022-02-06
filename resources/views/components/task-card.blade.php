@@ -9,7 +9,7 @@
                     </span>
                 @else
                     <span>
-                        <i class="material-icons">visibility_off</i>                                            </span>
+                        <i class="material-icons">visibility_off</i>
                     </span>
                 @endif
 
