@@ -17,10 +17,13 @@ return [
     'myList' => 'My tasks',
     'tasks' => 'Tasks',
     'sharedTasks' => 'Shared tasks',
+    'recentTasks' => 'Recent tasks',
 
     'name' => 'Name',
     'description' => 'Description',
     'owner' => 'Owner',
+
+    'open' => 'Open task',
 
     'categories' => 'Categories',
     'editCategories' => 'Manage categories',
@@ -41,6 +44,7 @@ return [
     'members' => 'Members',
     'shareWith' => 'Share this task with other people.',
     'sharedWith' => 'Shared with',
+    'sharingWith' => 'Sharing with',
     'user' => 'Enter a username',
     'deleteMember' => 'Remove user',
     'deleteMemberConfirmation' => 'Do you really want to delete user <b>:name</b> from this task?',
@@ -53,6 +57,9 @@ return [
     'comment' => 'Comment',
     'commentCount' => 'Comment count',
 
-    'seeMore' => 'See more..'
+    'seeMore' => 'See more..',
+
+    'noTasks' => 'You don\'t have any tasks yet.',
+    'noTasksUnfinished' => 'You don\'t have any unfinished tasks.',
 
 ];

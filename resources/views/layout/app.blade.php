@@ -28,6 +28,7 @@
             $('.modal').modal();
             $('select').formSelect();
             $('.datepicker').datepicker();
+            $('.carousel').carousel();
 
             $('#members').modal({
                 onCloseStart: () => {

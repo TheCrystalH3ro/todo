@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -17,15 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-
-    if(auth()->check()) {
-        return view('dashboard');
-    }
-
-    return view('welcome');
-    
-})->name('home');
+Route::get('/', [DashboardController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
     

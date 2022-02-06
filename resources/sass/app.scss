@@ -727,3 +727,19 @@ nav {
         border-radius: 1rem;
     }
 }
+
+.dashboard {
+
+    padding: 2rem 0;
+
+    .box {
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+    }
+
+    .task-showcase,
+    .sharing-box {
+        padding: 0;
+    }
+
+}

@@ -28,5 +28,6 @@ return [
     'ascending' => 'Asc',
     'from' => 'From',
     'to' => 'To',
+    'welcome' => 'Welcome, <b>:name!</b>'
 
 ];
