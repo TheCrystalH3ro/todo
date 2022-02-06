@@ -291,9 +291,11 @@ function changeSorting() {
         page_url: page_url
     };
 
+    const url = window.location.origin + window.location.pathname
+
     $.ajax({
         type: 'GET',
-        url: BASE_URL + '/tasks',
+        url: url,
         data: data,
         async: true,
         success: (data) => {

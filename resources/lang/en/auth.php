@@ -25,9 +25,15 @@ return [
     'username' => 'Username',
     'password' => 'Password',
     'password_confirm' => 'Confirm password',
+    'password_old' => 'Current password',
+    'password_new' => 'New password',
+    'change_password' => 'Change password',
     'loginFailed' => 'Invalid name or password',
     'rememberMe' => 'Remember me',
     'profile' => 'Profile',
     'logout' => 'Logout',
+    'changePassword' => 'Change password',
+    'wrong_password' => 'Current password you entered is not valid.',
+    'password_changed' => 'Password successfully changed!'
 
 ];

@@ -79,7 +79,19 @@
     <div class="row">
         <div class="input-field col s12 filter-buttons">
             <button type="submit" class="waves-effect waves-light chip text-white btn teal lighten-2"> {{ __('general.filter') }} </button>
-            <a href="{{ url('/tasks') }}"class="waves-effect waves-light chip btn"> {{ __('general.resetFilter') }} </a>
+            <a href="@switch($indexType)
+            @case(1)
+                {{ url('user/'. $user_id . '/tasks') }}
+                @break
+            @case(2)
+                {{ url('user/'. $user_id . '/tasks/common') }}
+                @break
+            @case(3)
+                {{ url('user/'. $user_id . '/tasks/shared') }}
+                @break
+            @default
+                {{ url('/tasks') }}
+        @endswitch"class="waves-effect waves-light chip btn"> {{ __('general.resetFilter') }} </a>
         </div>
     </div>
     

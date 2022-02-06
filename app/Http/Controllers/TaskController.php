@@ -162,34 +162,7 @@ class TaskController extends Controller
 
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request) {
-
-        $this->validate($request, [
-            'task_name' => 'string|nullable',
-            'visibility' => 'boolean|nullable',
-            'status' => 'boolean|nullable',
-            'category' => 'array|nullable',
-            'category.*' => 'integer|nullable',
-            'membership' => 'boolean|nullable',
-            'shared_with' => 'array|nullable',
-            'shared_with.*' => 'string|nullable',
-            'from' => 'date|nullable',
-            'to' => 'date|nullable',
-            'sort_by' => 'integer|nullable',
-            'order' => 'boolean|nullable',
-            'isAjax' => 'boolean',
-            'page_url' => 'string',
-        ]);
-
-        //GET FILTERED TASKS
-        $tasks = Task::whereHas('members', function ($query) {
-            $query->where('users.id', Auth::id());
-        });
+    private function indexTasks($request, $tasks, $index_type = 0, $user_id = 0) {
 
         $sort_by = $this->getSorting($request->input('sort_by'));
 
@@ -253,8 +226,146 @@ class TaskController extends Controller
             'to' => $request->input('to'),
             'sort_by' => $request->input('sort_by'),
             'order' => $request->query('order', 0),
+            'indexType' => $index_type,
+            'user_id' => $user_id,
             'isEdit' => false
         ]);
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request) {
+
+        $this->validate($request, [
+            'task_name' => 'string|nullable',
+            'visibility' => 'boolean|nullable',
+            'status' => 'boolean|nullable',
+            'category' => 'array|nullable',
+            'category.*' => 'integer|nullable',
+            'membership' => 'boolean|nullable',
+            'shared_with' => 'array|nullable',
+            'shared_with.*' => 'string|nullable',
+            'from' => 'date|nullable',
+            'to' => 'date|nullable',
+            'sort_by' => 'integer|nullable',
+            'order' => 'boolean|nullable',
+            'isAjax' => 'boolean',
+            'page_url' => 'string',
+        ]);
+
+        //GET FILTERED TASKS
+        $tasks = Task::whereHas('members', function ($query) {
+            $query->where('users.id', Auth::id());
+        });
+
+        return $this->indexTasks($request, $tasks);
+    }
+
+    public function userIndex(Request $request, $user_id) {
+
+        $this->validate($request, [
+            'task_name' => 'string|nullable',
+            'visibility' => 'boolean|nullable',
+            'status' => 'boolean|nullable',
+            'category' => 'array|nullable',
+            'category.*' => 'integer|nullable',
+            'membership' => 'boolean|nullable',
+            'shared_with' => 'array|nullable',
+            'shared_with.*' => 'string|nullable',
+            'from' => 'date|nullable',
+            'to' => 'date|nullable',
+            'sort_by' => 'integer|nullable',
+            'order' => 'boolean|nullable',
+            'isAjax' => 'boolean',
+            'page_url' => 'string',
+        ]);
+
+        $isOwner = (Auth::id() == $user_id);
+
+        //GET FILTERED TASKS
+        if($isOwner) {
+            $tasks = Task::whereHas('members', function ($query) use($user_id) {
+                $query->where('users.id', $user_id);
+                $query->where('task_user.isOwner', 1);
+            });
+        } else {
+            $tasks = Task::whereHas('members', function ($query) use($user_id) {
+                $query->where('users.id', $user_id);
+                $query->where('task_user.isOwner', 1);
+            })->where('tasks.visibility', 1);
+        }
+
+        return $this->indexTasks($request, $tasks, 1, $user_id);
+
+    }
+
+    public function userCommon(Request $request, $user_id) {
+
+        $this->validate($request, [
+            'task_name' => 'string|nullable',
+            'visibility' => 'boolean|nullable',
+            'status' => 'boolean|nullable',
+            'category' => 'array|nullable',
+            'category.*' => 'integer|nullable',
+            'membership' => 'boolean|nullable',
+            'shared_with' => 'array|nullable',
+            'shared_with.*' => 'string|nullable',
+            'from' => 'date|nullable',
+            'to' => 'date|nullable',
+            'sort_by' => 'integer|nullable',
+            'order' => 'boolean|nullable',
+            'isAjax' => 'boolean',
+            'page_url' => 'string',
+        ]);
+
+        //GET FILTERED TASKS
+        $tasks = Task::whereHas('members', function ($query) use($user_id) {
+            $query->where('users.id', $user_id);
+        })->whereHas('members', function ($query) {
+            $query->where('users.id', Auth::id());
+        });
+
+        return $this->indexTasks($request, $tasks, 2, $user_id);
+
+    }
+
+    public function userShared(Request $request, $user_id) {
+
+        $this->validate($request, [
+            'task_name' => 'string|nullable',
+            'visibility' => 'boolean|nullable',
+            'status' => 'boolean|nullable',
+            'category' => 'array|nullable',
+            'category.*' => 'integer|nullable',
+            'membership' => 'boolean|nullable',
+            'shared_with' => 'array|nullable',
+            'shared_with.*' => 'string|nullable',
+            'from' => 'date|nullable',
+            'to' => 'date|nullable',
+            'sort_by' => 'integer|nullable',
+            'order' => 'boolean|nullable',
+            'isAjax' => 'boolean',
+            'page_url' => 'string',
+        ]);
+
+        $isOwner = (Auth::id() == $user_id);
+
+        if(!$isOwner) {
+            abort(403);
+        }
+
+        //GET FILTERED TASKS
+        $tasks = Task::whereHas('members', function ($query) use($user_id) {
+            $query->where('users.id', $user_id);
+            $query->where('task_user.isOwner', 0);
+        });
+
+        return $this->indexTasks($request, $tasks, 3, $user_id);
+        
     }
 
     /**

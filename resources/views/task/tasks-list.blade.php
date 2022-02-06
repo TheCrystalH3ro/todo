@@ -4,7 +4,19 @@
 
     <main class="task-list">
 
-        <form action="{{ url('/tasks') }}" method="GET" class="row container">
+        <form action="@switch($indexType)
+            @case(1)
+                {{ url('user/'. $user_id . '/tasks') }}
+                @break
+            @case(2)
+                {{ url('user/'. $user_id . '/tasks/common') }}
+                @break
+            @case(3)
+                {{ url('user/'. $user_id . '/tasks/shared') }}
+                @break
+            @default
+                {{ url('/tasks') }}
+        @endswitch" method="GET" class="row container">
             
             @include('components.filterbox')
 

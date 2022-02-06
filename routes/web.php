@@ -37,8 +37,15 @@ Route::middleware(['auth'])->group(function () {
         'store', 'destroy'
     ]);
     
+    Route::get('/user/{id}/tasks/common', [TaskController::class, 'userCommon']);
+    Route::get('/user/{id}/tasks/shared', [TaskController::class, 'userShared']);
+    Route::get('/user/{id}/tasks', [TaskController::class, 'userIndex']);
+
     Route::get('/user/{id}', [UserController::class, 'show']);
     Route::get('/profile', [UserController::class, 'profile']);
+
+    Route::get('/change-password', [UserController::class, 'edit']);
+    Route::patch('/change-password', [UserController::class, 'update']);
 
 });
 

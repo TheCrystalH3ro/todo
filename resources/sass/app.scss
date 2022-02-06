@@ -589,56 +589,6 @@ nav {
                 }
             }
 
-            .list {
-
-                .task-item {
-                    margin: 1rem 0;
-                    padding: 1rem;
-                    border-radius: 1rem;
-                    color: initial;
-
-                    .task-right {
-                        margin-left: auto;
-                    }
-
-                    .task-header {
-                        display: flex;
-                        padding: 0.5rem;
-
-                        h6 {
-                            vertical-align: super;
-                            margin-left: 0.35rem;
-                            color: $teal_lighten_2;
-                        }
-
-                        .switch label input[type=checkbox][disabled] + .lever:after, .switch label input[type=checkbox][disabled]:checked + .lever:after {
-                            background-color: #26a69a;
-                        }
-
-                    }
-
-                    .task-body {
-                        display: flex;
-                        align-items: center;
-                        padding: 0.25rem 0.5rem;
-
-                        .material-icons {
-                            vertical-align: bottom;
-                            margin-right: 0.5rem;
-                        }
-
-                        ul {
-                            margin: 0;
-                        }
-                    }
-                }
-
-                .task-item:hover {
-                    background-color: #dad8d8 !important;
-                }
-
-            }
-
             .pagination {
                 padding: 0.5rem;
                 margin-top: auto;
@@ -670,4 +620,110 @@ nav {
         }
     }
 
+}
+
+.user {
+
+    padding: 2rem 0;
+
+    a {
+        color: $teal_lighten_2;
+    }
+
+    .user-box {
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+
+    .list-header,
+    .list-footer {
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+    }
+
+    .user-box {
+
+        .user-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+    }
+
+    .tasks {
+
+        padding: 2rem 0;
+
+        .tasks-list {
+            padding: 0;
+            padding-right: 1rem;
+        }
+
+        .shared-tasks {
+            padding: 0;
+            padding-left: 1rem;
+        }
+
+    }
+
+}
+
+.list {
+
+    .task-item {
+        margin: 1rem 0;
+        padding: 1rem;
+        border-radius: 1rem;
+        color: initial;
+
+        .task-right {
+            margin-left: auto;
+        }
+
+        .task-header {
+            display: flex;
+            padding: 0.5rem;
+
+            h6 {
+                vertical-align: super;
+                margin-left: 0.35rem;
+                color: $teal_lighten_2;
+            }
+
+            .switch label input[type=checkbox][disabled] + .lever:after, .switch label input[type=checkbox][disabled]:checked + .lever:after {
+                background-color: #26a69a;
+            }
+
+        }
+
+        .task-body {
+            display: flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+
+            .material-icons {
+                vertical-align: bottom;
+                margin-right: 0.5rem;
+            }
+
+            ul {
+                margin: 0;
+            }
+        }
+    }
+
+    .task-item:hover {
+        background-color: #dad8d8 !important;
+    }
+
+}
+
+.settings {
+    padding: 2rem 0;
+
+    .settings-box {
+        padding: 2rem 1rem;
+        border-radius: 1rem;
+    }
 }

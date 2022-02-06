@@ -15,6 +15,8 @@ return [
     'editButton' => 'Edit task',
     'saveButton' => 'Save task',
     'myList' => 'My tasks',
+    'tasks' => 'Tasks',
+    'sharedTasks' => 'Shared tasks',
 
     'name' => 'Name',
     'description' => 'Description',
@@ -49,6 +51,8 @@ return [
 
     'comments' => 'Comments',
     'comment' => 'Comment',
-    'commentCount' => 'Comment count'
+    'commentCount' => 'Comment count',
+
+    'seeMore' => 'See more..'
 
 ];
