@@ -897,10 +897,11 @@ nav {
         .sharing-list {
             overflow: auto;
             max-height: 29.5rem;
+            margin-top: 1rem;
             
             .sharing-item {
 
-                margin: 2rem 0;
+                margin-bottom: 1rem;
                 margin-right: 1rem;
 
                 a {
@@ -908,6 +909,10 @@ nav {
                     display: block;
                 }
 
+            }
+
+            .sharing-item:last-child {
+                margin-bottom: 0;
             }
         }
 
@@ -934,7 +939,7 @@ nav {
     .shared-list {
         display: flex;
         flex-wrap: wrap;
-        margin: 2rem 0;
+        margin: 20px 0;
         gap: 1rem;
         row-gap: 1rem;
 
