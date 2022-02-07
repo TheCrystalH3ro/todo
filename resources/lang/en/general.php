@@ -18,6 +18,8 @@ return [
     'cancel' => 'Cancel',
     'yes' => 'Yes',
     'no' => 'No',
+    'accept' => 'Accept',
+    'decline' => 'Decline',
     'any' => 'Any',
     'filter' => 'Filter',
     'resetFilter' => 'Reset filters',

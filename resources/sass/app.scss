@@ -164,6 +164,29 @@ nav {
 
     }
 
+    .notif-btn {
+        position: relative;
+
+        .notif-circle {
+            display: block;
+            position: absolute;
+            height: 1em;
+            width: 1em;
+            top: 32px;
+            right: 10px;
+            border-radius: 50%;
+            background-color: red;
+        }
+
+        .notif-count {
+            display: block;
+            position: absolute;
+            top: 7px;
+            right: 13px;
+        }
+        
+    }
+
 }
 
 #notifdropdown {
@@ -172,10 +195,31 @@ nav {
         padding: 1em;
     }
 
+    .notification {
+
+        .controls {
+            display: flex;
+            justify-content: center;
+
+            .waves-red:hover,
+            .waves-red:active,
+            .waves-red:focus {
+                background-color: #e53935;
+                color: white;
+            }
+        }
+    }
+
     .empty:hover {
         background: none;
         cursor: default;
     }
+
+    .notification:hover {
+        cursor: default;
+    }
+
+
 
 }
 

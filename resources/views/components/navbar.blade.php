@@ -11,9 +11,33 @@
 </ul>
 
 <ul id="notifdropdown" class="dropdown-content notif-dropdown">
-    <li class="empty">
-        <span>{{ __('general.nothing') }}</span>
-    </li>
+    <?php $notifications = App\Models\Notification::with('sender', 'task')->where('user_id', Auth::id())->get(); ?>
+    @if ($notifications->isEmpty())
+        <li class="empty">
+            <span>{{ __('general.nothing') }}</span>
+        </li>
+    @else
+        @foreach($notifications as $notification)
+
+            <li class="notification">
+                
+                @switch($notification->type)
+                    @case(0)
+                        <p> {!! __('notifications.invitation', ['user' => $notification->sender->name, 'task' => $notification->task->name]) !!} </p>
+                        <div class="controls">
+                            <a href="{{ url('/invite/' . $notification->external_id . '/accept') }}" class="modal-close waves-effect waves-light chip text-white btn teal lighten-2">{{ __('general.accept') }}</a>
+                            <a href="{{ url('/invite/' . $notification->external_id . '/decline') }}" class="waves-effect waves-red chip btn">{{ __('general.decline') }}</a>
+                        </div>
+                        @break
+                    @default
+                        <p></p>
+                @endswitch
+
+            </li>
+
+        @endforeach
+    @endif
+    
 </ul>
     
     <nav class="teal lighten-2">
@@ -33,7 +57,7 @@
             
             <ul class="right">
                 <li>
-                    <a class="dropdown-trigger notif-btn" data-target="notifdropdown"><i class="material-icons">notifications</i></a>
+                    <a class="dropdown-trigger notif-btn" data-target="notifdropdown"><i class="material-icons">notifications</i>@if(count($notifications) > 0)<span class="notif-circle"></span><span class="notif-count">{{ count($notifications) }}</span>@endif</a>
                 </li>
                 <li>
                     <a class="dropdown-trigger user-btn" data-target="userdropdown"><i class="material-icons">arrow_drop_down</i></a>

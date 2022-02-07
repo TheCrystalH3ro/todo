@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invitation;
+use App\Models\Notification;
 use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
@@ -59,11 +61,33 @@ class MembersController extends Controller
             return redirect('tasks/'.$task->id); 
         }
 
-        $task->members()->attach($user->id, ['isOwner' => 0]);
+        //CHECK IF USER ALREADY HAS INVITATION FOR THIS TASK
+        $isInvited = Invitation::where('task_id', $task->id)->where('user_id', $user->id)->exists();
 
-        $task->updated_at = Carbon::now();
+        if($isInvited) {
+            return redirect('tasks/'.$task->id); 
+        }
 
-        $task->save();
+        $invite = new Invitation();
+
+        $invite->task_id = $task->id;
+        $invite->user_id = $user->id;
+
+        $invite->save();
+
+        $notification = new Notification();
+
+        $notification->type = 0;
+
+        $notification->sender_id = Auth::id();
+
+        $notification->task_id = $task->id;
+
+        $notification->user_id = $user->id;
+
+        $notification->external_id = $invite->id;
+
+        $notification->save();
 
         return redirect('tasks/'.$task->id);
 
