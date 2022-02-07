@@ -73,7 +73,37 @@
                                 </div>
                                 
                             </form>
+
+                        @elseif ($isMember)
                         
+                        <form action="{{ url('tasks/'. $task->id . '/members/' . auth()->id()) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            
+                            <a href="#delete-task" class="waves-effect waves-light btn-floating red darken-1 modal-trigger">
+                                <i class="material-icons">meeting_room</i>
+                            </a>
+
+                            <div id="delete-task" class="modal">
+                                <div class="modal-content">
+                                    <h5>{{ __('tasks.leaveConfirmation') }}</h5>
+                                    
+                                    <div class="input-field">
+
+                                        <button type="submit" class="waves-effect waves-red chip btn" name="member-remove" value="{{ auth()->id() }}">
+                                            {{ __('tasks.leave') }}
+                                        </button>
+
+                                        <a class="modal-close waves-effect waves-light chip text-white btn teal lighten-2">
+                                            <span>{{ __('general.cancel') }}</span>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </form>
+
                         @endif
 
                     </div>

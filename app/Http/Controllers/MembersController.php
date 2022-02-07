@@ -93,7 +93,7 @@ class MembersController extends Controller
         //CHECK IF LOGGED USER IS OWNER OF TASK
         $isOwner = ($task->owner) ? ($task->owner->id == Auth::id()) : false;
 
-        if(!$isOwner) {
+        if(!$isOwner && $user_id != Auth::id()) {
             abort(403);
         }
 
@@ -116,6 +116,12 @@ class MembersController extends Controller
         unset($task->owner);
 
         $task->save();
+
+        if(Auth::id() == $user_id) {
+
+            return redirect('tasks');
+
+        }
 
         return redirect('tasks/'.$task_id);
 
