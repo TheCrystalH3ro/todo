@@ -37,7 +37,6 @@ class UserController extends Controller
 
         //NUMBER OF RESULTS SHOWN
         $limit = 10;
-        $shared = [];
 
         if($isOwner) {
 
