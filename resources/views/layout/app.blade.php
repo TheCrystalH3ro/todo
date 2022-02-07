@@ -28,7 +28,16 @@
             $('.modal').modal();
             $('select').formSelect();
             $('.datepicker').datepicker();
-            $('.carousel').carousel();
+
+            $('.carousel').carousel({
+                onCycleTo: (element) => {
+                    let page = $(element).index();
+
+                    $('.showcase-controls a.active').removeClass('active').addClass('waves-effect');
+
+                    $('.showcase-controls .item-' + page + ' a').removeClass('waves-effect').addClass('active');
+                }
+            });
 
             $('#members').modal({
                 onCloseStart: () => {

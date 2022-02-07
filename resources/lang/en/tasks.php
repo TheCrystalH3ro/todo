@@ -52,6 +52,8 @@ return [
 
     'delete' => 'Delete',
     'deleteConfirmation' => 'Do you really want to delete this task permanently?',
+    'leave' => 'Leave',
+    'leaveConfirmation' => 'Do you really want to leave from this task?',
 
     'comments' => 'Comments',
     'comment' => 'Comment',
@@ -61,5 +63,6 @@ return [
 
     'noTasks' => 'You don\'t have any tasks yet.',
     'noTasksUnfinished' => 'You don\'t have any unfinished tasks.',
+    'noTasksShared' => 'You don\'t have any shared tasks.',
 
 ];

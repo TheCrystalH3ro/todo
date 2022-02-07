@@ -433,6 +433,16 @@ $('.filter-sort-by select[name="sort_by"], .filter-sort-by input[name="order"]')
 
 });
 
+$('.showcase-controls a').on('click', (event) => {
+
+    let element = $(event.target);
+
+    let page = element.data('item');
+
+    $('.carousel').carousel('set', page);
+
+});
+
 // $('#members .add-member-form').on('submit', (event) => {
 
 //     event.preventDefault();

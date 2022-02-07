@@ -677,6 +677,10 @@ nav {
         border-radius: 1rem;
         color: initial;
 
+        .category-list {
+            display: flex;
+        }
+
         .task-right {
             margin-left: auto;
         }
@@ -732,14 +736,224 @@ nav {
 
     padding: 2rem 0;
 
+    a {
+        color: $teal_lighten_2;
+    }
+
     .box {
         padding: 0.5rem 1rem;
         border-radius: 1rem;
     }
 
+    .dash-display {
+        display: flex;
+        align-items: stretch;
+    }
+
     .task-showcase,
     .sharing-box {
         padding: 0;
+    }
+
+    .task-showcase {
+
+        padding-right: 1rem;
+
+        .task-showcase-item {
+            margin: 2rem 0;
+            padding: 2rem;
+            text-align: center;
+
+            p {
+                font-size: 1.8rem;
+            }
+        }
+
+        .carousel {
+
+            .task-showcase-item {
+                width: 100%;
+                height: fit-content;
+                margin: 0;
+
+                .category-list {
+                    display: flex;
+                }
+
+                .task-header {
+                    display: flex;
+                }
+
+                .task-body {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    width: 100%;
+
+                    .task-top {
+                        padding-left: 1em;
+
+                        .material-icons {
+                            margin-right: 0.5rem;
+                        }
+                    }
+
+                    .task-detail {
+
+                        width: 100%;
+                        text-align: left;
+                        
+                        margin: 0;
+                        padding: 0;
+
+                        .col {
+                            padding: 0;
+                            margin: 0;
+                        }
+
+                        p {
+                            padding: 1rem;
+                            border-radius: 1rem;
+                            background-color: $light_gray;
+                        }
+                
+                    }
+                }
+
+                .task-footer {
+                    display: flex;
+                    justify-content: space-between;
+
+                    .task-right {
+                        display: flex;
+                        align-items: center;
+                        margin-left: auto;
+
+                        .material-icons {
+                            vertical-align: bottom;
+                            margin-right: 0.5rem;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        .showcase-controls {
+
+            .pagination {
+                width: fit-content;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto;
+
+                li {
+
+                    display: flex;
+                    margin: 0 0.5rem;
+                    background: none;
+                    vertical-align: middle;
+                    align-items: center;
+                
+                    a {
+                        display: inline-block;
+                        width: 1em;
+                        height: 1em;
+                        border-radius: 50%;
+                        background-color: $light_gray;
+                    }
+
+                    .active {
+                        background-color: #424242;
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+    .sharing-box {
+        padding-left: 1rem;
+        display: flex;
+        flex-direction: column;
+
+        .shared-empty {
+
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+            padding: 2rem;
+
+            p {
+                font-size: 1.8rem;
+            }
+        }
+
+        .sharing-list {
+            overflow: auto;
+            max-height: 29.5rem;
+            
+            .sharing-item {
+
+                margin: 2rem 0;
+                margin-right: 1rem;
+
+                a {
+                    font-size: 1.35em;
+                    display: block;
+                }
+
+            }
+        }
+
+        .sharing-list::-webkit-scrollbar {
+            width: 0.8rem;
+        }
+
+        .sharing-list::-webkit-scrollbar-track {
+            background-color: $light_gray;
+            border-radius: 1rem;
+        }
+
+        .sharing-list::-webkit-scrollbar-thumb {
+            border-radius: 1rem;
+            background-color: $teal_lighten_2;
+        }
+
+        .sharing-list::-webkit-scrollbar-thumb:hover {
+            border-radius: 1rem;
+            background-color: #26a69a;
+        }
+    }
+
+    .shared-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 2rem 0;
+        gap: 1rem;
+        row-gap: 1rem;
+
+        .shared-item {
+            width: max-content;
+            padding: 0rem;
+
+            a {
+                display: block;
+                padding: 2rem;
+                color: inherit;
+            }
+
+            .material-icons {
+                vertical-align: bottom;
+                margin-right: 0.5rem;
+            }
+        }
+
     }
 
 }
