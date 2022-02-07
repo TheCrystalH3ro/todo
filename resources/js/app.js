@@ -14,11 +14,11 @@ function getCategoryName(id) {
     id = toInteger(id);
 
     switch(id) {
-        case 0:
-            return 'School';
         case 1:
-            return 'Work';
+            return 'School';
         case 2:
+            return 'Work';
+        case 3:
             return 'Self-care';
         default:
             return 'Category';
