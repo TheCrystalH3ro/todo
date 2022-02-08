@@ -32,7 +32,7 @@
 
             @yield('content')
 
-            @include('components.footer')
+            @yield('footer', View::make('components.footer'))
 
             @include('layout.scripts')
 

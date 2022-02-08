@@ -223,6 +223,22 @@ nav {
 
 }
 
+footer {
+    text-align: right;
+    margin-top: auto;
+    padding: 2rem;
+    background-color: #1d2124;
+
+    a {
+        color: $teal_lighten_2;
+    }
+}
+
+#main {
+    display: flex;
+    flex-direction: column;
+}
+
 .app {
     min-height: 100vh;
 }
