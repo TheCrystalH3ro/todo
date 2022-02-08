@@ -1,5 +1,9 @@
 @extends('task.task-master')
 
+@section('title')
+    {{ __('title.task-new') }} | ToDo
+@endsection
+
 @section('form-url')
     {{ url('/tasks') }}
 @endsection

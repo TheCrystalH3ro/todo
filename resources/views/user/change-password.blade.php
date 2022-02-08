@@ -1,5 +1,9 @@
 @extends('layout.app')
 
+@section('title')
+    {{ __('title.password-change') }} | ToDo
+@endsection
+
 @section('main')
 
     <main class="settings">

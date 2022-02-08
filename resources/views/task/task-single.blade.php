@@ -1,5 +1,9 @@
 @extends('layout.app')
 
+@section('title')
+    {{$task->name}} | ToDo
+@endsection
+
 @section('main')
 
     <main class="task single" data-task="{{ $task->id }}">

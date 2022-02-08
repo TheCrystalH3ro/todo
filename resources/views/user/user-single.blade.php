@@ -1,5 +1,9 @@
 @extends('layout.app')
 
+@section('title')
+    {{ __('title.profile', ['user' => $user->name]) }} | ToDo
+@endsection
+
 @section('main')
     <main class="user">
         <div class="user-box container blue-grey lighten-5">

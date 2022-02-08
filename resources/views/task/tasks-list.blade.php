@@ -1,5 +1,9 @@
 @extends('layout.app')
 
+@section('title')
+    {{__('title.task-list')}} | ToDo
+@endsection
+
 @section('main')
 
     <main class="task-list">

@@ -1,5 +1,9 @@
 @extends('task.task-master')
 
+@section('title')
+    {{ __('title.task-edit', ['task' => $task->name]) }} | ToDo
+@endsection
+
 @section('form-url')
     {{ url('/tasks/' . $task->id) }}
 @endsection
