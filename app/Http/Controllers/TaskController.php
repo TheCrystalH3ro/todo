@@ -520,14 +520,44 @@ class TaskController extends Controller
             abort(403);
         }
 
+        $isChanged = false;
+
         $task->name = $request->input('task_name');
         $task->description = $request->input('task_description');
         $task->visibility = ($request->input('visibility') && 'on') ? 1 : 0;
-        $task->status = ($request->input('status') && 'on') ? 1 : 0;;
+        
+        $categoryChanges = $task->categories()->sync($request->input('add-category'));
 
-        $task->categories()->sync($request->input('add-category'));
+        $categoryModified = array_filter($categoryChanges);
 
-        $task->updated_at = Carbon::now();
+        if($task->isDirty() || !empty($categoryModified) ) {
+
+            $isChanged = true;
+
+            //TASK HAS BEEN EDITED
+            broadcast_notification($task->members, 7, $task->id, Auth::id(), false, Auth::id());
+
+        }
+
+        $task->status = ($request->input('status') && 'on') ? 1 : 0;
+
+        if(!$isChanged && $task->isDirty()) {
+
+            if($task->status) {
+                //TASK HAS BEEN COMPLETED
+                broadcast_notification($task->members, 6, $task->id, Auth::id(), false, Auth::id());
+            } else {
+                //TASK HAS BEEN EDITED
+                broadcast_notification($task->members, 7, $task->id, Auth::id(), false, Auth::id());
+            }
+
+            $isChanged = true;
+
+        }
+
+        if($isChanged) {
+            $task->updated_at = Carbon::now();
+        }
 
         $task->save();
 
@@ -559,6 +589,8 @@ class TaskController extends Controller
         if(!$isOwner) {
             abort(403);
         }
+
+        broadcast_notification($task->members, 5, null, Auth::id(), false, Auth::id() );
 
         $task->categories()->detach();
         $task->members()->detach();

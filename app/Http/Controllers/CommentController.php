@@ -57,7 +57,9 @@ class CommentController extends Controller
             $task->updated_at = Carbon::now();
 
             $task->save();
-        } 
+        }
+        
+        broadcast_notification($task->members, 8, $task->id, Auth::id(), false, Auth::id());
 
         return redirect('tasks/'.$task->id);
 

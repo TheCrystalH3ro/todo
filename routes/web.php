@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +43,8 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/change-password', [UserController::class, 'update']);
 
     Route::get('/invite/{id}/accept', [InvitationController::class, 'accept']);
-    Route::get('/invite/{id}/decline', [InvitationController::class, 'decline']);
+    Route::delete('/invite/{id}/decline', [InvitationController::class, 'decline']);
+    Route::delete('/notification/{id}/clear', [NotificationController::class, 'clear']);
 
 });
 

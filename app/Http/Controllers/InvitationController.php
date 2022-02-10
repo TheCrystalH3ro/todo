@@ -31,9 +31,9 @@ class InvitationController extends Controller {
             $notification->delete();
         }
 
-        $invite->delete();
-
         $task = Task::find($invite->task_id);
+        
+        $invite->delete();
 
         if(!$task) {
             abort(404);
@@ -46,6 +46,10 @@ class InvitationController extends Controller {
 
         if($isMember) {
             return redirect('tasks/'.$task->id); 
+        }
+
+        foreach($task->members as $member) {
+            send_notification(3, $task->id, $member->id, Auth::id());
         }
 
         $task->members()->attach(Auth::id(), ['isOwner' => 0]);

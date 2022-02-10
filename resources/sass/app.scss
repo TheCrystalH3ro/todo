@@ -191,6 +191,9 @@ nav {
 
 #notifdropdown {
 
+    overflow: auto;
+    max-height: 50vh;
+
     li {
         padding: 1em;
     }
@@ -207,6 +210,31 @@ nav {
                 background-color: #e53935;
                 color: white;
             }
+        }
+
+        .notif-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .notif-controls {
+
+                padding-left: 0.8rem;
+
+                .notif-clear {
+                    display: inline;
+                    padding: 0;
+                    color: $light_gray;
+                    background: none;
+                }
+
+                .notif-clear:hover {
+                    color: red;
+                    cursor: pointer;
+                }
+
+            }
+
         }
     }
 
@@ -852,6 +880,11 @@ footer {
 
                     .task-top {
                         padding-left: 1em;
+                        text-align: left;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 100%;
 
                         .material-icons {
                             margin-right: 0.5rem;
@@ -872,9 +905,14 @@ footer {
                         }
 
                         p {
+                            font-size: 1rem;
                             padding: 1rem;
                             border-radius: 1rem;
                             background-color: $light_gray;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            max-width: 100%;
                         }
                 
                     }

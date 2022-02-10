@@ -26,11 +26,26 @@
                         <p> {!! __('notifications.invitation', ['user' => $notification->sender->name, 'task' => $notification->task->name]) !!} </p>
                         <div class="controls">
                             <a href="{{ url('/invite/' . $notification->external_id . '/accept') }}" class="modal-close waves-effect waves-light chip text-white btn teal lighten-2">{{ __('general.accept') }}</a>
-                            <a href="{{ url('/invite/' . $notification->external_id . '/decline') }}" class="waves-effect waves-red chip btn">{{ __('general.decline') }}</a>
+                            <form action="{{ url('/invite/' . $notification->external_id . '/decline') }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="waves-effect waves-red chip btn">{{ __('general.decline') }}</button>
+                            </form>
                         </div>
                         @break
                     @default
-                        <p></p>
+                        <div class="notif-box">
+                            <div class="notif-message">
+                                <p>{!! get_notification_message($notification->type, $notification->user->name, $notification->task->name, $notification->sender->name) !!}</p>
+                            </div>
+                            <div class="notif-controls">
+                                <form action="{{ url('/notification/' . $notification->id . '/clear') }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="notif-clear"><i class="material-icons">clear</i></a>
+                                </form>
+                            </div>
+                        </div>
                 @endswitch
 
             </li>

@@ -75,19 +75,7 @@ class MembersController extends Controller
 
         $invite->save();
 
-        $notification = new Notification();
-
-        $notification->type = 0;
-
-        $notification->sender_id = Auth::id();
-
-        $notification->task_id = $task->id;
-
-        $notification->user_id = $user->id;
-
-        $notification->external_id = $invite->id;
-
-        $notification->save();
+        send_notification(0, $task->id, $user->id, Auth::id(), $invite->id);
 
         return redirect('tasks/'.$task->id);
 
@@ -140,6 +128,18 @@ class MembersController extends Controller
         unset($task->owner);
 
         $task->save();
+
+        //USER LEFT
+        if($user_id == Auth::id()) {
+            //NOTIFICATION ABOUT USER LEAVING TO EVERY MEMBER
+            broadcast_notification($task->members, 4, $task->id, Auth::id());
+        } else {
+            //NOTIFICATION TO USER THAT HE HAS BEEN KICKED
+            send_notification(1, $task->id, $user->id, Auth::id());
+
+            //NOTIFICATION THAT USER HAS BEEN KICKED TO EVERY MEMBER (BESIDES OWNER)
+            broadcast_notification($task->members, 2, $task->id, $user->id, false, Auth::id());
+        }
 
         if(Auth::id() == $user_id) {
 
