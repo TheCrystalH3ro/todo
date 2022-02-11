@@ -6,6 +6,8 @@ if( !function_exists('get_notification_message') )  {
     function get_notification_message($type, $user = false, $task = false, $sender = false) {
 
         switch($type) {
+            case 0:
+                return __('notifications.invitation', ['user' => $sender, 'task' => $task]);
             case 1:
                 return __('notifications.kicked', ['task' => $task]);
             case 2:
@@ -47,6 +49,8 @@ if( !function_exists('send_notification') ) {
         }
 
         $notification->save();
+
+        $notification->sendMail();
 
     }
 }
