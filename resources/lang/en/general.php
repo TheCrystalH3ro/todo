@@ -30,6 +30,7 @@ return [
     'ascending' => 'Asc',
     'from' => 'From',
     'to' => 'To',
-    'welcome' => 'Welcome, <b>:name!</b>'
+    'welcome' => 'Welcome, <b>:name!</b>',
+    'openApp' => 'Open App'
 
 ];

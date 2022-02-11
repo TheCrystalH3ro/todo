@@ -25,7 +25,7 @@
                         text-decoration: none;
                         text-transform: uppercase;
                 "> 
-                    <b>Open app</b>
+                    <b>{{ __('general.openApp') }}</b>
                 </a>
             </div>
         </div>
