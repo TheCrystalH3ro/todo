@@ -62,6 +62,12 @@
 
     </main>
 
+    <div class="fixed-action-btn">
+        <a href="{{ url('tasks/create') }}" class="btn-floating btn-large teal lighten-2">
+            <i class="large material-icons">add</i>
+        </a>
+    </div>
+
     <script>
         let filterLang = {
             descending: "{{ __('general.descending') }}",
