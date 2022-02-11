@@ -2,10 +2,10 @@
 
 @section('content')
     <p style="font-size: 1.2rem;">
-        {!! get_notification_message($notification->type, $notification->user->name, $notification->task->name, $notification->sender->name) !!}
+        {{ __('auth.verifyLinkText') }}
     </p>
     <div style="text-align: center">
-        <a href="{{ url('/') }}" 
+        <a href="{{ url($link) }}" 
             style="
                 background-color: #4db6ac;    
                 display: inline-block;
@@ -22,7 +22,7 @@
                 text-decoration: none;
                 text-transform: uppercase;
         "> 
-            <b>{{ __('general.openApp') }}</b>
+            <b>{{ __('auth.verifySubjectText') }}</b>
         </a>
     </div>
 @endsection

@@ -16,6 +16,10 @@ class DashboardController extends Controller {
         }
 
         $user = User::find(Auth::id());
+
+        if(!$user->hasVerifiedEmail()) {
+            return redirect('/email/verify');
+        }
         
         //NUMBER OF RESULTS SHOWN
         $limit = 10;

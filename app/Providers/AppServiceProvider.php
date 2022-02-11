@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,8 +23,15 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        //
+    public function boot() {
+        
+        VerifyEmail::toMailUsing(function ($notifiable, $url) {
+
+            return (new MailMessage)->view('mail.verify-account', ['link' => $url])
+                                    ->subject(__('auth.verifySubjectText'))
+                                    ->from('todo@app.com', 'ToDo App');
+
+        });
+
     }
 }

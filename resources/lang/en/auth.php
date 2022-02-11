@@ -34,6 +34,11 @@ return [
     'logout' => 'Logout',
     'changePassword' => 'Change password',
     'wrong_password' => 'Current password you entered is not valid.',
-    'password_changed' => 'Password successfully changed!'
+    'password_changed' => 'Password successfully changed!',
+    'emailNotVerified' => 'Account is not verified',
+    'verifyEmail' => 'Please, activate your account by using verification link in your email address.',
+    'resendVerify' => 'Resend verification e-mail',
+    'verifySubjectText' => 'Verify your account',
+    'verifyLinkText' => 'Click the button below to verify your email address.'
 
 ];
