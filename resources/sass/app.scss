@@ -1088,3 +1088,20 @@ footer {
     }
 
 }
+
+.message {
+
+    margin: auto;
+    width: 100%;
+
+    .box {
+        padding: 2rem 1rem;
+        margin-top: 2rem;
+        border-radius: 1rem;
+        text-align: center;
+
+        p {
+            font-size: 1.2rem;
+        }
+    }
+}
