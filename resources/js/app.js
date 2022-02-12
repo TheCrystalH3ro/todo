@@ -211,10 +211,12 @@ function saveComment(comment, id) {
         url: url,
         data: data,
         success: (data) => {
-            
+            let popupText = '<div class="popup-message"><i class="material-icons text-success">check</i><span>'+ commentsLang.commentUpdated +'</span></div>';
+            M.toast({html: popupText, classes: 'rounded'});
         },
-        error: (data) => {
-            
+        error: (data) => { 
+            let popupText = '<div class="popup-message"><i class="material-icons text-failure">check</i><span>'+ commentsLang.commentUpdateFail +'</span></div>';
+            M.toast({html: popupText, classes: 'rounded'});
         }
     });
 

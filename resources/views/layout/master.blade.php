@@ -37,5 +37,12 @@
             @include('layout.scripts')
 
         </div>
+
+        @if (session('message'))
+            <script>
+                let popupText = '<div class="popup-message">@if(session('status')) {!! get_status_icon(session('status')) !!}  @endif<span>{{ session('message') }}</span></div>';
+                M.toast({html: popupText, classes: 'rounded'})
+            </script>
+        @endif
     </body>
 </html>

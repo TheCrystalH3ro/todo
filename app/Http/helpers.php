@@ -70,3 +70,18 @@ if( !function_exists('broadcast_notification') ) {
 
     }
 }
+
+if( !function_exists('get_status_icon') ) {
+    function get_status_icon($status) {
+
+        switch($status) {
+            case 'success':
+                return '<i class="material-icons text-success">check</i>';
+            case 'failure':
+                return '<i class="material-icons text-failure">close</i>';
+            default:
+                return '';
+        }
+
+    }
+}

@@ -61,7 +61,7 @@ class CommentController extends Controller
         
         broadcast_notification($task->members, 8, $task->id, Auth::id(), false, Auth::id());
 
-        return redirect('tasks/'.$task->id);
+        return redirect('tasks/'.$task->id)->with('message', __('notifications.commentCreated'))->with('status', 'success');
 
     }
 
@@ -174,7 +174,7 @@ class CommentController extends Controller
             $task->save();
         } 
 
-        return redirect('tasks/'.$task_id);
+        return redirect('tasks/'.$task_id)->with('message', __('notifications.commentDeleted'))->with('status', 'success');;
 
     }
 }

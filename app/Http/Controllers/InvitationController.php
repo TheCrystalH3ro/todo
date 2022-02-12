@@ -45,7 +45,7 @@ class InvitationController extends Controller {
         })->where('users.id', Auth::id())->exists();
 
         if($isMember) {
-            return redirect('tasks/'.$task->id); 
+            return redirect('tasks/'.$task->id)->with('message', __('notifications.memberAlreadyJoined'))->with('status', 'failure');
         }
 
         foreach($task->members as $member) {
@@ -58,7 +58,7 @@ class InvitationController extends Controller {
 
         $task->save();
 
-        return redirect('tasks/'.$task->id);
+        return redirect('tasks/'.$task->id)->with('message', __('notifications.taskJoined', ['task' => $task->name]))->with('status', 'success');
 
     }
 
@@ -83,7 +83,7 @@ class InvitationController extends Controller {
 
         $invite->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('message', __('notifications.taskDeclined'))->with('status', 'success');
 
     }
 

@@ -284,6 +284,11 @@ class TaskController extends Controller
             'page_url' => 'string',
         ]);
 
+        //USER DOESN'T EXIST
+        if(!User::find($user_id)) {
+            abort(404);
+        }
+
         $isOwner = (Auth::id() == $user_id);
 
         //GET FILTERED TASKS
@@ -321,6 +326,11 @@ class TaskController extends Controller
             'isAjax' => 'boolean',
             'page_url' => 'string',
         ]);
+
+        //USER DOESN'T EXIST
+        if(!User::find($user_id)) {
+            abort(404);
+        }
 
         //GET FILTERED TASKS
         $tasks = Task::whereHas('members', function ($query) use($user_id) {
@@ -411,7 +421,7 @@ class TaskController extends Controller
 
         }
 
-        return redirect('tasks/'.$task->id);
+        return redirect('tasks/'.$task->id)->with('message', __('notifications.taskCreated'))->with('status', 'success');
 
     }
 
@@ -561,7 +571,7 @@ class TaskController extends Controller
 
         $task->save();
 
-        return redirect('tasks/'.$task->id);
+        return redirect('tasks/'.$task->id)->with('message', __('notifications.taskEdited'))->with('status', 'success');
         
     }
 
@@ -599,7 +609,7 @@ class TaskController extends Controller
 
         $task->delete();
 
-        return redirect('tasks');
+        return redirect('tasks')->with('message', __('notifications.taskDeleted'))->with('status', 'success');
 
     }
 }

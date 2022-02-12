@@ -49,7 +49,7 @@ class MembersController extends Controller
 
         //USER NOT FOUND
         if(!$user) {
-            abort(404);
+            return redirect('tasks/'.$task->id)->with('message', __('notifications.userNotFound'))->with('status', 'failure');
         }
 
         //CHECK IF USER IS ALREADY A MEMBER
@@ -58,14 +58,14 @@ class MembersController extends Controller
         })->where('users.id', $user->id)->exists();
 
         if($isMember) {
-            return redirect('tasks/'.$task->id); 
+            return redirect('tasks/'.$task->id)->with('message', __('notifications.memberAlreadyJoined'))->with('status', 'failure'); 
         }
 
         //CHECK IF USER ALREADY HAS INVITATION FOR THIS TASK
         $isInvited = Invitation::where('task_id', $task->id)->where('user_id', $user->id)->exists();
 
         if($isInvited) {
-            return redirect('tasks/'.$task->id); 
+            return redirect('tasks/'.$task->id)->with('message', __('notifications.memberAlreadyInvited'))->with('status', 'failure'); 
         }
 
         $invite = new Invitation();
@@ -77,7 +77,7 @@ class MembersController extends Controller
 
         send_notification(0, $task->id, $user->id, Auth::id(), $invite->id);
 
-        return redirect('tasks/'.$task->id);
+        return redirect('tasks/'.$task->id)->with('message', __('notifications.memberInvited'))->with('status', 'success');
 
     }
 
@@ -143,11 +143,11 @@ class MembersController extends Controller
 
         if(Auth::id() == $user_id) {
 
-            return redirect('tasks');
+            return redirect('tasks')->with('message', __('notifications.taskLeave', ['task' => $task->name]))->with('status', 'success');
 
         }
 
-        return redirect('tasks/'.$task_id);
+        return redirect('tasks/'.$task_id)->with('message', __('notifications.memberRemoved'))->with('status', 'success');
 
     }
 }

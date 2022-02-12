@@ -38,29 +38,34 @@ Route::post('/logout', [LoginController::class, 'destroy'])
 /* ----- EMAIL VERIFICATION ----- */
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-     
-        return redirect('/');
-    })->middleware(['auth', 'signed'])->name('verification.verify');
+
+                if($request->user()->hasVerifiedEmail()) {
+                        return redirect('/');
+                }
+
+                $request->fulfill();
+
+                return redirect('/')->with('message', __('notifications.accountVerified'))->with('status', 'success');
+        })->middleware(['auth', 'signed'])->name('verification.verify');
     
-    Route::post('/email/verification-notification', function (Request $request) {
+Route::post('/email/verification-notification', function (Request $request) {
 
-        if($request->user()->hasVerifiedEmail()) {
-            return redirect('/');
-        }
+                if($request->user()->hasVerifiedEmail()) {
+                        return redirect('/');
+                }
 
-        $request->user()->sendEmailVerificationNotification();
-     
-        return back()->with('message', 'Verification link sent!');
-    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-    
-    Route::get('/email/verify', function () {
-            
-        $user = User::find(Auth::id());
+                $request->user()->sendEmailVerificationNotification();
 
-        if($user->hasVerifiedEmail()) {
-            return redirect('/');
-        }
+                return back()->with('message', __('notifications.verifLinkSent'))->with('status', 'success');
+        })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-        return view('auth.verify-email');
-    })->middleware('auth')->name('verification.notice');
+Route::get('/email/verify', function () {
+        
+                $user = User::find(Auth::id());
+
+                if($user->hasVerifiedEmail()) {
+                return redirect('/');
+                }
+
+                return view('auth.verify-email');
+        })->middleware('auth')->name('verification.notice');

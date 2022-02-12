@@ -80,4 +80,13 @@
 
     </div>
 
+    <script>
+
+        var commentsLang = {
+            commentUpdated: '{{ __('notifications.commentUpdated') }}',
+            commentUpdateFail: '{{ __('notifications.commentUpdateError') }}'
+        }
+    
+    </script>
+
 </div>
