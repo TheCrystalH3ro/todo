@@ -255,6 +255,67 @@ function sendForm(form) {
 }
 
 /* -- AJAX FILTERING -- */
+
+function getOriginalFilterData() {
+
+    let shared_with_inputs = $('.original-inputs input[name="orig_shared_with[]"]');
+
+    let shared_with = [];
+
+    shared_with_inputs.each((id, element) => {
+        shared_with.push($(element).val());
+    });
+
+    let category_inputs = $('.original-inputs input[name="orig_category[]"]');
+
+    let category = [];
+
+    category_inputs.each((id, element) => {
+        category.push($(element).val());
+    });
+
+    let data = {
+        task_name: $('.original-inputs input[name="orig_task_name"]').val(),
+        visibility: $('.original-inputs input[name="orig_visibility"]').val(),
+        status: $('.original-inputs input[name="orig_status"]').val(),
+        category: category,
+        membership: $('.original-inputs input[name="orig_membership"]').val(),
+        shared_with: shared_with,
+        from: $('.original-inputs input[name="orig_from"]').val(),
+        to: $('.original-inputs input[name="orig_to"]').val(),
+    };
+
+    return data;
+
+}
+
+function getFilterData() {
+
+    let shared_with_inputs = $('.filter-box input[name="shared_with[]"]');
+
+    let shared_with = [];
+
+    shared_with_inputs.each((id, element) => {
+        shared_with.push($(element).val());
+    });
+
+    let data = {
+        task_name: $('.filter-box #task-name').val(),
+        visibility: $('.filter-box select[name="visibility"]').val(),
+        status: $('.filter-box select[name="status"]').val(),
+        category: $('.filter-box select[name="category[]"]').val(),
+        membership: $('.filter-box select[name="membership"]').val(),
+        shared_with: shared_with,
+        from: $('.filter-box .datepicker[name="from"]').val(),
+        to: $('.filter-box .datepicker[name="to"]').val(),
+        sort_by: $('.filter-sort-by select[name="sort_by"]').val(),
+        order: $('.filter-sort-by input[name="order"]').val(),
+    };
+
+    return data;
+
+}
+
 function changeQueryString(param, value) {
     if ('URLSearchParams' in window) {
         var searchParams = new URLSearchParams(window.location.search)
@@ -264,7 +325,53 @@ function changeQueryString(param, value) {
     }
 }
 
+function clearQueryString() {
+    history.pushState(null, '', window.location.pathname);
+}
+
+function appendToQueryString(param, value) {
+    if ('URLSearchParams' in window) {
+        var searchParams = new URLSearchParams(window.location.search)
+        searchParams.append(param, value);
+        var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
+        history.pushState(null, '', newRelativePathQuery);
+    }
+}
+
+function updateParamData(data) {
+
+    changeQueryString("task_name", data.task_name);
+    changeQueryString("visibility", data.visibility);
+    changeQueryString("status", data.status);
+    changeQueryString("membership", data.membership);
+    changeQueryString("from", data.from);
+    changeQueryString("to", data.to);
+
+    data.category.forEach((value, key) => {
+
+        if(!key) {
+            changeQueryString('category[]', value);
+            return;
+        }
+
+        appendToQueryString('category[]', value);
+    });
+
+    data.shared_with.forEach((value, key) => {
+
+        if(!key) {
+            changeQueryString('shared_with[]', value);
+            return;
+        }
+
+        appendToQueryString('shared_with[]', value);
+    });
+
+}
+
 function changeSorting() {
+
+    $('.result .overlay').css('display', 'flex');
 
     sort_by = $('.filter-sort-by select[name="sort_by"]').val();
     order = $('.filter-sort-by input[name="order"]').val();
@@ -278,20 +385,12 @@ function changeSorting() {
     page_url = page_url.replace('&page=' + 1, '');
     page_url = page_url.replace('?page=' + 1 + '&', '?');
 
-    let data = {
-        task_name: params.task_name,
-        visibility: params.visibility,
-        status: params.status,
-        category: params.category,
-        membership: params.membership,
-        shared_with: params.shared_with,
-        from: params.from,
-        to: params.to,
-        sort_by: sort_by,
-        order: order,
-        isAjax: 1,
-        page_url: page_url
-    };
+    let data = getOriginalFilterData();
+
+    data.isAjax = 1;
+    data.page_url = page_url;
+    data.sort_by = sort_by;
+    data.order = order;
 
     const url = window.location.origin + window.location.pathname
 
@@ -301,8 +400,9 @@ function changeSorting() {
         data: data,
         async: true,
         success: (data) => {
-            $('.result .list, .pagination').remove();
-            $('.result').append(data);
+            $('.result .list, .pagination, .original-inputs').remove();
+            $('.result .list-wrapper').append(data);
+            $('.result .overlay').css('display', 'none');
         },
         error: (data) => {
             
@@ -310,6 +410,124 @@ function changeSorting() {
     });
 
     changeQueryString("page", 1);
+
+}
+
+function changeListPage(page) {
+
+    $('.result .overlay').css('display', 'flex');
+
+    sort_by = $('.filter-sort-by select[name="sort_by"]').val();
+    order = $('.filter-sort-by input[name="order"]').val();
+
+    changeQueryString("page", page);
+
+    let page_url = window.location.href;
+
+    let data = getOriginalFilterData();
+
+    data.isAjax = 1;
+    data.page = page;
+    data.page_url = page_url;
+    data.sort_by = sort_by;
+    data.order = order;
+
+    const url = window.location.origin + window.location.pathname
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        data: data,
+        async: true,
+        success: (data) => {
+            $('.result .list, .pagination, .original-inputs').remove();
+            $('.result .list-wrapper').append(data);
+            $('.result .overlay').css('display', 'none');
+        },
+        error: (data) => {
+            
+        }
+    });
+
+}
+
+function changeListFiltering() {
+
+    $('.result .overlay').css('display', 'flex');
+
+    let page_url = window.location.href;
+    page_url = page_url.replace('&page=' + params.page, '');
+    page_url = page_url.replace('?page=' + params.page + '&', '?');
+    page_url = page_url.replace('&page=' + 1, '');
+    page_url = page_url.replace('?page=' + 1 + '&', '?');
+
+    let data = getFilterData();
+
+    data.isAjax = 1;
+    data.page = 1;
+    data.page_url = page_url;
+
+    updateParamData(data);
+
+    const url = window.location.origin + window.location.pathname;
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        data: data,
+        async: true,
+        success: (data) => {
+            $('.result .list, .pagination, .original-inputs').remove();
+            $('.result .list-wrapper').append(data);
+            $('.result .overlay').css('display', 'none');
+        },
+        error: (data) => {
+            
+        }
+    });
+
+}
+
+function resetFilters() {
+
+    $('.result .overlay').css('display', 'flex');
+
+    $('.filter-box select, .filter-box input').val('');
+    $('.filter-box select').formSelect();
+    $('.filter-box input + label').removeClass('active');
+
+    $('.filter-box .chips.input-field .chip').remove();
+    $('.filter-box .shared-inputs').empty();
+
+    let page_url = window.location.href;
+    page_url = page_url.replace('&page=' + params.page, '');
+    page_url = page_url.replace('?page=' + params.page + '&', '?');
+    page_url = page_url.replace('&page=' + 1, '');
+    page_url = page_url.replace('?page=' + 1 + '&', '?');
+
+    let data = {
+        isAjax: 1,
+        page_url: page_url
+    };
+
+    clearQueryString();
+
+    const url = window.location.origin + window.location.pathname;
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        data: data,
+        async: true,
+        success: (data) => {
+            $('.result .list, .pagination, .original-inputs').remove();
+            $('.result .list-wrapper').append(data);
+            $('.result .overlay').css('display', 'none');
+        },
+        error: (data) => {
+            
+        }
+    });
 
 }
 
@@ -435,6 +653,37 @@ $('.filter-sort-by select[name="sort_by"], .filter-sort-by input[name="order"]')
 
 });
 
+// PAGE BUTTON
+$(document).on('click', '.pagination .waves-effect a', (event) => {
+
+    event.preventDefault();
+
+    let element = $(event.target);
+
+    let page = element.data('page');
+
+    changeListPage(page);
+    
+});
+
+//FILTER BUTTON
+$('.filter-box .filter-buttons button[type="submit"]').on('click', (event) => {
+    
+    event.preventDefault();
+    
+    changeListFiltering();
+    
+});
+
+//RESET FILTER BUTTON
+$('.filter-box .filter-buttons a').on('click', (event) => {
+    
+    event.preventDefault();
+    
+    resetFilters();
+    
+});
+
 $('.showcase-controls a').on('click', (event) => {
 
     let element = $(event.target);
@@ -444,75 +693,3 @@ $('.showcase-controls a').on('click', (event) => {
     $('.carousel').carousel('set', page);
 
 });
-
-// $('#members .add-member-form').on('submit', (event) => {
-
-//     event.preventDefault();
-
-//     let form = $(event.target);
-
-//     let result = sendForm(form);
-
-//     if(!result.success) {
-//         $('#username').val('');
-//         return;
-//     }
-
-//     let data = form.serializeArray().reduce(function(m,o){  m[o.name] = o.value; return m;}, {});
-
-//     let task_id = $('.task').data('task');
-
-//     let item = '<td class="item"><span>'+ data.username +'</span></td>';
-
-//     let control = `<td class="control">
-//         <form class="delete-member-form" action="`+ BASE_URL + '/tasks/' + task_id + '/members/' + result.data + `" method="POST">
-//             <input type="hidden" name="_token" value="`+ data._token +`">
-//             <input type="hidden" name="_method" value="DELETE">
-//             <a class="modal-trigger" href="#member-delete-`+ result.data +`"> 
-//                 <i class="material-icons">clear</i> 
-//             </a>
-//             <div id="member-delete-`+ result.data +`" class="modal">
-
-//                 <div class="modal-content">
-
-//                     <h5>`+ membersLang.deleteMemberConfirm(data.username) +`</h5>
-
-//                     <div class="input-field">
-
-//                         <button type="submit" class="waves-effect waves-red chip btn" name="member-remove" value="`+ result.data +`">
-//                             `+ membersLang.deleteMember +`
-//                         </button>
-
-//                         <a class="waves-effect waves-light chip text-white btn modal-trigger teal lighten-2" onclick="$('#member-delete-`+ result.data +`').modal('close');">
-//                             <span>`+ membersLang.cancel +`</span>
-//                         </a>
-
-//                     </div>
-
-//                 </div>
-
-//             </div>
-//         </form>
-//     </td>`;
-
-//     $('#username').val('');
-
-//     $('#members .member-box tbody').append('<tr class="member member-' + result.data + '">'+ item + control + '</tr>');
-
-//     $('#members .modal').modal();
-
-// });
-
-// $(document).on('submit', '#members .delete-member-form', (event) => {
-
-//     event.preventDefault();
-
-//     let form = $(event.target);
-
-//     let result = sendForm(form);
-
-//     if(!result.success) {
-//         return;
-//     }
-
-// });

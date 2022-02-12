@@ -695,6 +695,30 @@ footer {
             flex-direction: column;
             margin-left: 0.5rem;
 
+            .list-wrapper {
+
+                position: relative;
+
+                .overlay {
+                    display: none;
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: rgba(0,0,0, 0.5);
+                    z-index: 12;
+                    margin-top: 1rem;
+                    border-radius: 1rem;
+    
+                    .preloader-wrapper {
+                        position: fixed;
+                        top: 50%;
+                    }
+                }
+
+            }
+
             .filter-sort-by {
                 display: flex;
                 align-items: center;
