@@ -23,6 +23,11 @@ class UserController extends Controller
 
         $user = User::find($id);
 
+        //USER NOT FOUND
+        if(!$user) {
+            abort(404);
+        }
+
         $isOwner = (Auth::id() == $id);
 
         //STATISTICS
