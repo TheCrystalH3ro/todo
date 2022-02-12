@@ -662,6 +662,24 @@ footer {
                 margin-bottom: 0.25rem;
             }
 
+            .chips {
+                border-bottom: none;
+
+                .input {
+                    width: 100%!important;
+                    border-bottom: 1px solid #9e9e9e;
+                }
+            }
+
+            .chips.focus {
+                box-shadow: none;
+
+                .input {
+                    border-bottom: 1px solid #26a69a!important;
+                    box-shadow: 0 1px 0 0 #26a69a!important;
+                }
+            }
+
             .filter-buttons {
                 display: flex;
                 justify-content: space-between;

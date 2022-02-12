@@ -56,9 +56,16 @@
     </div>
 
     <div class="row">
-        <div class="input-field col s12">
-            <input type="text" name="shared_with[]" id="shared_with" @if ($shared_with) value="{{ $shared_with[0] }}" @endif>
-            <label for="shared_with">{{ __('tasks.sharedWith') }}</label>
+        <div class="chips input-field col s12">
+            <input class="input" name="shared_with[]" id="shared_with">
+        </div>
+
+        <div class="shared-inputs">
+            @if (isset($shared_with))
+                @foreach (array_filter($shared_with) as $shared)
+                    <input type="hidden" name="shared_with[]" value="{{ $shared }}">
+                @endforeach
+            @endif
         </div>
     </div>
 

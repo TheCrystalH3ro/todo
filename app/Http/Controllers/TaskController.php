@@ -125,7 +125,7 @@ class TaskController extends Controller
                     });
                     break;
                 case 'shared_with':
-                    $members = $request->input($filter);
+                    $members = array_filter($request->input($filter));
                     $tasks = $tasks->whereHas('members', function ($query) use ($members) {
 
                         $index = 0;

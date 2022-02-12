@@ -28,6 +28,34 @@
             $('.modal').modal();
             $('select').formSelect();
             $('.datepicker').datepicker();
+            $('.chips').chips({
+                placeholder: '{{ __('tasks.sharedWith') }}',
+                @if (isset($shared_with))
+                data: [
+                    @foreach (array_filter($shared_with) as $name)
+                    {tag: '{{ $name }}'},
+                    @endforeach
+                ],
+                @endif
+                onChipAdd: (element) => {
+                    var data = M.Chips.getInstance($(element)).chipsData;
+
+                    let inputs = $('.shared-inputs');
+
+                    inputs.append('<input type="hidden" name="shared_with[]" value="'+ encodeURI(data.at(-1).tag) +'">');
+                },
+                onChipDelete: (element) => {
+                    var data = M.Chips.getInstance($(element)).chipsData;
+
+                    let inputs = $('.shared-inputs');
+                    inputs.empty();
+
+                    data.forEach((item, key) => {
+                        inputs.append('<input type="hidden" name="shared_with[]" value="'+ encodeURI(item.tag) +'">');
+                    });
+
+                },
+            });
 
             $('.carousel').carousel({
                 onCycleTo: (element) => {
