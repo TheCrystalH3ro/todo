@@ -118,7 +118,9 @@
                             
                                 <div class="sharing-item box blue-grey lighten-5">
                                     <a href="{{ url('/user/'. $member->id) }}">{{ $member->name }}</a>
-                                    <span>{{ $member->tasks_count . ' ' . __('tasks.tasks') }}</span>
+                                    <span>
+                                        {{ $member->tasks_count . ' ' . get_task_count_text($member->tasks_count) }}
+                                    </span>
                                 </div>
                             
                             @endforeach

@@ -85,3 +85,19 @@ if( !function_exists('get_status_icon') ) {
 
     }
 }
+
+if( !function_exists('get_task_count_text') ) {
+    function get_task_count_text($count) {
+
+        if($count == 1) {
+            return __('tasks.task');
+        }
+
+        if($count < 5) {
+            return __('tasks.tasks');
+        }
+
+        return __('tasks.tasksMore');
+
+    }
+}
