@@ -307,6 +307,55 @@ footer {
     min-height: 100vh;
 }
 
+.about {
+
+    h3 {
+        text-align: center;
+        margin: 0;
+        margin-top: 3rem;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 3rem 0;
+        row-gap: 3rem;
+    }
+
+    ul {
+
+        font-size: 1.2rem;
+
+        li {
+            margin: 0;
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+            position: relative;
+            
+            &:after {
+              content: '';
+              height: .4em;
+              width: .4em;
+              background: black;
+              display: block;
+              position: absolute;
+              transform: rotate(45deg);
+              top: 0.55em;
+              left: 0;
+            }
+            
+          }
+
+    }
+
+}
+
 .task {
 
     padding: 2rem 0;
@@ -648,6 +697,7 @@ footer {
 
     form.row {
         display: flex;
+        gap: 0.5rem;
 
         .filter-box {
             padding: 1rem;
@@ -693,7 +743,6 @@ footer {
         .result {
             display: flex;
             flex-direction: column;
-            margin-left: 0.5rem;
 
             .list-wrapper {
 
@@ -796,11 +845,6 @@ footer {
         color: $teal_lighten_2;
     }
 
-    .user-box {
-        padding: 1rem;
-        border-radius: 1rem;
-    }
-
     .list-header,
     .list-footer {
         padding: 0.5rem 1rem;
@@ -809,28 +853,36 @@ footer {
 
     .user-box {
 
+        padding: 1rem;
+        border-radius: 1rem;
+
         .user-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
 
     }
 
     .tasks {
 
+        display: flex;
         padding: 2rem 0;
+        gap: 2rem;
 
         .tasks-list {
             padding: 0;
-            padding-right: 1rem;
         }
 
         .shared-tasks {
             padding: 0;
-            padding-left: 1rem;
         }
 
+    }
+
+    .tasks::after {
+        display: none;
     }
 
 }
@@ -914,6 +966,11 @@ footer {
     .dash-display {
         display: flex;
         align-items: stretch;
+        gap: 2rem;
+    }
+
+    .dash-display::after {
+        display: none;
     }
 
     .task-showcase,
@@ -922,8 +979,6 @@ footer {
     }
 
     .task-showcase {
-
-        padding-right: 1rem;
 
         .task-showcase-item {
             margin: 2rem 0;
@@ -1052,7 +1107,6 @@ footer {
     }
 
     .sharing-box {
-        padding-left: 1rem;
         display: flex;
         flex-direction: column;
 
@@ -1120,8 +1174,10 @@ footer {
         row-gap: 1rem;
 
         .shared-item {
+            display: flex;
             width: max-content;
             padding: 0rem;
+            align-items: center;
 
             a {
                 display: block;
@@ -1164,4 +1220,67 @@ footer {
     .material-icons.text-failure {
         vertical-align: bottom;
     }
+}
+
+@media only screen and (max-width: 600px) {
+    
+    .dashboard {
+
+        .dash-display {
+            flex-wrap: wrap;
+        }
+
+        .shared-list {
+            justify-content: space-between;
+        }
+
+    }
+
+    .task-list {
+
+        form.row {
+            flex-wrap: wrap;
+            gap: 2rem;
+
+            .filter-box {
+                position: static;
+
+                .filter-buttons {
+                    flex-wrap: wrap;
+                    gap: 1rem;
+
+                    button,
+                    a {
+                        width: 100%;
+                    }
+                }
+            }
+
+            .result {
+                padding: 0;
+            }
+        }
+
+    }
+
+    .task-list + .fixed-action-btn {
+        bottom: 6rem;
+    }
+
+    .user {
+
+        .user-button {
+            margin: 1rem 0;
+        }
+
+        .tasks {
+            flex-wrap: wrap;
+        }
+
+    }
+
+    .verification .login-box {
+        width: initial;
+    }
+
 }
