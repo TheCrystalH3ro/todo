@@ -15,14 +15,29 @@
     </div>
 
     <main class="about">
-        <h3>About TODO</h3>
 
-        <ul>
-            <li>Create tasks</li>
-            <li>Mark tasks as completed</li>
-            <li>Categorize your tasks</li>
-            <li>Share your tasks with others</li>
-        </ul>
+        <div class="container">
+
+            <h3>About TODO</h3>
+            
+            <div class="row">
+
+                <div class="col s12 m6">
+
+                    <ul>
+                        <li>Create tasks</li>
+                        <li>Mark tasks as completed</li>
+                        <li>Categorize your tasks</li>
+                        <li>Share your tasks with others</li>
+                    </ul>
+                </div>
+
+                <div class="col s12 m6">
+                    <img class="z-depth-5" alt="homepage" src="{{ asset('images/homepage.png') }}">
+                </div>
+            </div>
+
+        </div>
 
     </main>
 
