@@ -2060,7 +2060,490 @@ module.exports = {
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+var _require = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js"),
+    toInteger = _require.toInteger;
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+var params = new Proxy(new URLSearchParams(window.location.search), {
+  get: function get(searchParams, prop) {
+    return searchParams.get(prop);
+  }
+}); //APPEND CATEGORY
+//TODO: REDO FUNCTION SO IT USES AJAX TO CALL FUNCTION WHICH RETURNS CATEGORY
+
+function getCategoryName(id) {
+  id = toInteger(id);
+
+  switch (id) {
+    case 1:
+      return 'School';
+
+    case 2:
+      return 'Work';
+
+    case 3:
+      return 'Self-care';
+
+    default:
+      return 'Category';
+  }
+} //TODO: EDIT TO MAKE AN AJAX CALL TO METHOD WHICH RETURNS ELEMENT INSTEAD
+
+
+function getCategoryElement(id) {
+  var name = getCategoryName(id);
+  return "\n        <tr class=\"category category-" + id + "\">\n            <td class=\"item\">\n                <span>" + name + "</span>\n                <input type=\"hidden\" name=\"add-category[]\" value=\"" + id + "\">\n            </td>\n            <td class=\"control\">\n                <a href=\"!#\" class=\"delete-category\" data-category=\"" + id + "\"> <i class=\"material-icons\">clear</i> </a>\n            </td>\n        </tr>\n    ";
+}
+
+function getCategoryBox(id) {
+  var name = getCategoryName(id);
+  return "\n        <li class=\"category-item category-item-" + id + "\">\n            <span class=\"chip\"> " + name + " </span>\n        </li>\n    ";
+}
+
+function refreshCategorySelect() {
+  element = $('#category-select');
+  var select = M.FormSelect.getInstance(element);
+  select.destroy();
+  element.value = "";
+  $(element).formSelect();
+}
+
+function getCategorySelect(id) {
+  var name = getCategoryName(id);
+  return "<option class=\"category-select-" + id + "\" value=\"" + id + "\">" + name + "</option>";
+}
+
+function getDeleteInput(id) {
+  return "<input type=\"hidden\" name=\"delete-category[]\" value=\"" + id + "\"></input>";
+}
+
+function getPrevSelectElement(id) {
+  var element; //LOOK FOR PREVIOUS ID
+
+  do {
+    id--;
+
+    if (id < 0) {
+      element = $('#category-select option').first();
+      break;
+    }
+
+    element = $('.category-select-' + id).last();
+  } while (!element.length);
+
+  return element;
+}
+
+function addCategoryToSelect(id) {
+  var prev = getPrevSelectElement(id);
+  var select = getCategorySelect(id);
+  $(select).insertAfter(prev);
+  refreshCategorySelect();
+}
+
+function addCategoryToList(id) {
+  var element = getCategoryElement(id);
+  $('.category-box table tbody').append(element);
+}
+
+function addCategoryBox(id) {
+  var element = getCategoryBox(id);
+  $('.category-list').append(element);
+}
+
+function deleteCategoryBox(id) {
+  $('.category-item-' + id).remove();
+}
+/* -- COMMENT EDIT -- */
+
+
+var commentMessage = [];
+var commentIsEditing = [];
+
+function editComment(comment, id) {
+  commentIsEditing[id] = true;
+  var body = comment.find('.comment-body');
+  var message = body.text().trim();
+  commentMessage[id] = message;
+  body.empty();
+  body.append('<div class="input-field col s12" style="float: none;"> <textarea name="comment" class="materialize-textarea">' + message + '</textarea></div>');
+  body.find('.materialize-textarea').select().focus();
+  var footer = comment.find('.comment-footer');
+  footer.prepend('<span class="save"> <button class="save-btn" data-comment="' + id + '">Save</button> | </span>');
+  footer.find('.edit-btn').text('Cancel');
+}
+
+function closeEditComment(comment, id) {
+  commentIsEditing[id] = false;
+  var body = comment.find('.comment-body');
+  body.empty();
+  body.append(commentMessage[id]);
+  var footer = comment.find('.comment-footer');
+  footer.find('.edit-btn').text('Edit');
+  footer.find('.save').remove();
+}
+
+function saveComment(comment, id) {
+  var body = comment.find('.comment-body');
+  var message = body.find('.materialize-textarea').val();
+  commentMessage[id] = message;
+  var csrf = $('.comments input[name="_token"]').val();
+  var task_id = $('.task').data('task');
+  var url = BASE_URL + '/tasks/' + task_id + '/comments/' + id;
+  var data = {
+    id: id,
+    comment: message,
+    _token: csrf,
+    _method: 'PATCH'
+  };
+  $.ajax({
+    type: 'PATCH',
+    url: url,
+    data: data,
+    success: function success(data) {
+      var popupText = '<div class="popup-message"><i class="material-icons text-success">check</i><span>' + commentsLang.commentUpdated + '</span></div>';
+      M.toast({
+        html: popupText,
+        classes: 'rounded'
+      });
+    },
+    error: function error(data) {
+      var popupText = '<div class="popup-message"><i class="material-icons text-failure">check</i><span>' + commentsLang.commentUpdateFail + '</span></div>';
+      M.toast({
+        html: popupText,
+        classes: 'rounded'
+      });
+    }
+  });
+  closeEditComment(comment, id);
+}
+/* -- AJAX FORM -- */
+
+
+function sendForm(form) {
+  var methodInput = form.find('input[name="_method"]');
+  var method = methodInput.length ? methodInput.val() : form.attr('method');
+  var result = {
+    success: false
+  };
+  $.ajax({
+    type: method,
+    url: form.attr('action'),
+    data: form.serialize(),
+    async: false,
+    success: function success(data) {
+      result.success = true;
+      result.data = data;
+    },
+    error: function error(data) {}
+  });
+  return result;
+}
+/* -- AJAX FILTERING -- */
+
+
+function getOriginalFilterData() {
+  var shared_with_inputs = $('.original-inputs input[name="orig_shared_with[]"]');
+  var shared_with = [];
+  shared_with_inputs.each(function (id, element) {
+    shared_with.push($(element).val());
+  });
+  var category_inputs = $('.original-inputs input[name="orig_category[]"]');
+  var category = [];
+  category_inputs.each(function (id, element) {
+    category.push($(element).val());
+  });
+  var data = {
+    task_name: $('.original-inputs input[name="orig_task_name"]').val(),
+    visibility: $('.original-inputs input[name="orig_visibility"]').val(),
+    status: $('.original-inputs input[name="orig_status"]').val(),
+    category: category,
+    membership: $('.original-inputs input[name="orig_membership"]').val(),
+    shared_with: shared_with,
+    from: $('.original-inputs input[name="orig_from"]').val(),
+    to: $('.original-inputs input[name="orig_to"]').val()
+  };
+  return data;
+}
+
+function getFilterData() {
+  var shared_with_inputs = $('.filter-box input[name="shared_with[]"]');
+  var shared_with = [];
+  shared_with_inputs.each(function (id, element) {
+    shared_with.push($(element).val());
+  });
+  var data = {
+    task_name: $('.filter-box #task-name').val(),
+    visibility: $('.filter-box select[name="visibility"]').val(),
+    status: $('.filter-box select[name="status"]').val(),
+    category: $('.filter-box select[name="category[]"]').val(),
+    membership: $('.filter-box select[name="membership"]').val(),
+    shared_with: shared_with,
+    from: $('.filter-box .datepicker[name="from"]').val(),
+    to: $('.filter-box .datepicker[name="to"]').val(),
+    sort_by: $('.filter-sort-by select[name="sort_by"]').val(),
+    order: $('.filter-sort-by input[name="order"]').val()
+  };
+  return data;
+}
+
+function changeQueryString(param, value) {
+  if ('URLSearchParams' in window) {
+    var searchParams = new URLSearchParams(window.location.search);
+    searchParams.set(param, value);
+    var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
+    history.pushState(null, '', newRelativePathQuery);
+  }
+}
+
+function clearQueryString() {
+  history.pushState(null, '', window.location.pathname);
+}
+
+function appendToQueryString(param, value) {
+  if ('URLSearchParams' in window) {
+    var searchParams = new URLSearchParams(window.location.search);
+    searchParams.append(param, value);
+    var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
+    history.pushState(null, '', newRelativePathQuery);
+  }
+}
+
+function updateParamData(data) {
+  changeQueryString("task_name", data.task_name);
+  changeQueryString("visibility", data.visibility);
+  changeQueryString("status", data.status);
+  changeQueryString("membership", data.membership);
+  changeQueryString("from", data.from);
+  changeQueryString("to", data.to);
+  data.category.forEach(function (value, key) {
+    if (!key) {
+      changeQueryString('category[]', value);
+      return;
+    }
+
+    appendToQueryString('category[]', value);
+  });
+  data.shared_with.forEach(function (value, key) {
+    if (!key) {
+      changeQueryString('shared_with[]', value);
+      return;
+    }
+
+    appendToQueryString('shared_with[]', value);
+  });
+}
+
+function changeSorting() {
+  $('.result .overlay').css('display', 'flex');
+  sort_by = $('.filter-sort-by select[name="sort_by"]').val();
+  order = $('.filter-sort-by input[name="order"]').val();
+  changeQueryString("sort_by", sort_by);
+  changeQueryString("order", order);
+  var page_url = window.location.href;
+  page_url = page_url.replace('&page=' + params.page, '');
+  page_url = page_url.replace('?page=' + params.page + '&', '?');
+  page_url = page_url.replace('&page=' + 1, '');
+  page_url = page_url.replace('?page=' + 1 + '&', '?');
+  var data = getOriginalFilterData();
+  data.isAjax = 1;
+  data.page_url = page_url;
+  data.sort_by = sort_by;
+  data.order = order;
+  var url = window.location.origin + window.location.pathname;
+  $.ajax({
+    type: 'GET',
+    url: url,
+    data: data,
+    async: true,
+    success: function success(data) {
+      $('.result .list, .pagination, .original-inputs').remove();
+      $('.result .list-wrapper').append(data);
+      $('.result .overlay').css('display', 'none');
+    },
+    error: function error(data) {}
+  });
+  changeQueryString("page", 1);
+}
+
+function changeListPage(page) {
+  $('.result .overlay').css('display', 'flex');
+  sort_by = $('.filter-sort-by select[name="sort_by"]').val();
+  order = $('.filter-sort-by input[name="order"]').val();
+  changeQueryString("page", page);
+  var page_url = window.location.href;
+  var data = getOriginalFilterData();
+  data.isAjax = 1;
+  data.page = page;
+  data.page_url = page_url;
+  data.sort_by = sort_by;
+  data.order = order;
+  var url = window.location.origin + window.location.pathname;
+  $.ajax({
+    type: 'GET',
+    url: url,
+    data: data,
+    async: true,
+    success: function success(data) {
+      $('.result .list, .pagination, .original-inputs').remove();
+      $('.result .list-wrapper').append(data);
+      $('.result .overlay').css('display', 'none');
+    },
+    error: function error(data) {}
+  });
+}
+
+function changeListFiltering() {
+  $('.result .overlay').css('display', 'flex');
+  var page_url = window.location.href;
+  page_url = page_url.replace('&page=' + params.page, '');
+  page_url = page_url.replace('?page=' + params.page + '&', '?');
+  page_url = page_url.replace('&page=' + 1, '');
+  page_url = page_url.replace('?page=' + 1 + '&', '?');
+  var data = getFilterData();
+  data.isAjax = 1;
+  data.page = 1;
+  data.page_url = page_url;
+  updateParamData(data);
+  var url = window.location.origin + window.location.pathname;
+  $.ajax({
+    type: 'GET',
+    url: url,
+    data: data,
+    async: true,
+    success: function success(data) {
+      $('.result .list, .pagination, .original-inputs').remove();
+      $('.result .list-wrapper').append(data);
+      $('.result .overlay').css('display', 'none');
+    },
+    error: function error(data) {}
+  });
+}
+
+function resetFilters() {
+  $('.result .overlay').css('display', 'flex');
+  $('.filter-box select, .filter-box input').val('');
+  $('.filter-box select').formSelect();
+  $('.filter-box input + label').removeClass('active');
+  $('.filter-box .chips.input-field .chip').remove();
+  $('.filter-box .shared-inputs').empty();
+  var page_url = window.location.href;
+  page_url = page_url.replace('&page=' + params.page, '');
+  page_url = page_url.replace('?page=' + params.page + '&', '?');
+  page_url = page_url.replace('&page=' + 1, '');
+  page_url = page_url.replace('?page=' + 1 + '&', '?');
+  var data = {
+    isAjax: 1,
+    page_url: page_url
+  };
+  clearQueryString();
+  var url = window.location.origin + window.location.pathname;
+  $.ajax({
+    type: 'GET',
+    url: url,
+    data: data,
+    async: true,
+    success: function success(data) {
+      $('.result .list, .pagination, .original-inputs').remove();
+      $('.result .list-wrapper').append(data);
+      $('.result .overlay').css('display', 'none');
+    },
+    error: function error(data) {}
+  });
+}
+/* -- EVENTS --  */
+//SELECT CATEGORY FROM DRODPOWN
+
+
+$('#categories .input-field select').on('change', function (event) {
+  event.preventDefault();
+  var element = event.target;
+  var value = element.value;
+  var select = M.FormSelect.getInstance(element);
+  addCategoryToList(value);
+  select.destroy();
+  $('.category-select-' + value).remove();
+  element.value = "";
+  $(element).formSelect();
+  addCategoryBox(value);
+}); //DESELECT CATEGORY BUTTON
+
+$(document).on('click', '.delete-category', function (event) {
+  event.preventDefault();
+  var element = $(event.target).parent();
+  var id = element.data('category');
+  $('.category-' + id).remove();
+  addCategoryToSelect(id);
+  deleteCategoryBox(id);
+});
+$('#visibility input').on('change', function (event) {
+  var element = event.target;
+  var value = $(element).is(":checked");
+  var message = getVisibilityMessage(value);
+  $('#visibility h4 i').text(message);
+});
+$('.comment .edit-btn').on('click', function (event) {
+  var element = $(event.target);
+  var comment_id = element.data('comment');
+  var comment = $('#comment-' + comment_id);
+
+  if (commentIsEditing[comment_id]) {
+    closeEditComment(comment, comment_id);
+    return;
+  }
+
+  editComment(comment, comment_id);
+});
+$(document).on('click', '.comment .save-btn', function (event) {
+  var element = $(event.target);
+  var comment_id = element.data('comment');
+  var comment = $('#comment-' + comment_id);
+  saveComment(comment, comment_id);
+});
+$('button.order').on('click', function (event) {
+  event.preventDefault();
+  var element = $(event.target).parent();
+  var input = $('input[name="order"]');
+
+  if (input.val() == '1') {
+    input.val(0);
+    element.find('b').text(filterLang.descending);
+    element.find('.material-icons').text('keyboard_arrow_down');
+    changeSorting();
+    return;
+  }
+
+  input.val(1);
+  element.find('b').text(filterLang.ascending);
+  element.find('.material-icons').text('keyboard_arrow_up');
+  changeSorting();
+});
+$('.filter-sort-by select[name="sort_by"], .filter-sort-by input[name="order"]').on('change', function (event) {
+  changeSorting();
+}); // PAGE BUTTON
+
+$(document).on('click', '.pagination .waves-effect a', function (event) {
+  event.preventDefault();
+  var element = $(event.target);
+  var page = element.data('page');
+  changeListPage(page);
+}); //FILTER BUTTON
+
+$('.filter-box .filter-buttons button[type="submit"]').on('click', function (event) {
+  event.preventDefault();
+  changeListFiltering();
+}); //RESET FILTER BUTTON
+
+$('.filter-box .filter-buttons a').on('click', function (event) {
+  event.preventDefault();
+  resetFilters();
+});
+$('.showcase-controls a').on('click', function (event) {
+  var element = $(event.target);
+  var page = element.data('item');
+  $('.carousel').carousel('set', page);
+});
 
 /***/ }),
 
